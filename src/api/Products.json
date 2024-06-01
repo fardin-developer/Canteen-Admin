@@ -1,0 +1,456 @@
+[
+  {
+    "id": "1",
+    "name": "Masala Dosa",
+    "description": "Crispy and flavorful Indian crepe filled with spiced potato filling.",
+    "category": "Indian Food",
+    "brand": "Food",
+    "price": 8.99,
+    "salePrice": 7.99,
+    "costPerItem": 5.99,
+    "currency": "₹",
+    "order": 12,
+    "sku": "SKU101",
+    "attributes": [
+      {
+        "name": "Spice Level",
+        "values": ["Mild", "Medium", "Spicy"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.7,
+      "num_ratings": 90
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 50
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Percentage",
+        "amount": 10,
+        "description": "Get 10% off on this masala dosa."
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Biryani",
+    "description": "Aromatic and flavorful rice dish cooked with spices, herbs, and choice of meat or vegetables.",
+    "category": "Indian Food",
+    "brand": "Food",
+    "price": 12.99,
+    "salePrice": 11.99,
+    "costPerItem": 8.99,
+    "currency": "₹",
+    "order": 15,
+    "sku": "SKU102",
+    "attributes": [
+      {
+        "name": "Type",
+        "values": ["Chicken", "Lamb", "Vegetarian"]
+      },
+      {
+        "name": "Spice Level",
+        "values": ["Mild", "Medium", "Spicy"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.8,
+      "num_ratings": 100
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 40
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Fixed Amount",
+        "amount": 2,
+        "description": "Save $2 on this biryani."
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Paneer Tikka",
+    "description": "Marinated and grilled paneer cubes served with chutney.",
+    "category": "Indian Food",
+    "brand": "Food",
+    "price": 10.99,
+    "salePrice": 9.99,
+    "costPerItem": 6.99,
+    "currency": "₹",
+    "order": 18,
+    "sku": "SKU103",
+    "attributes": [
+      {
+        "name": "Spice Level",
+        "values": ["Mild", "Medium", "Spicy"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.6,
+      "num_ratings": 70
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 60
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Percentage",
+        "amount": 10,
+        "description": "Get 10% off on this paneer tikka."
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Chicken Curry",
+    "description": "Tender chicken cooked in a rich and flavorful curry sauce.",
+    "category": "Indian Food",
+    "brand": "Food",
+    "price": 14.99,
+    "salePrice": 13.99,
+    "costPerItem": 10.99,
+    "currency": "₹",
+    "order": 21,
+    "sku": "SKU104",
+    "attributes": [
+      {
+        "name": "Spice Level",
+        "values": ["Mild", "Medium", "Spicy"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.5,
+      "num_ratings": 90
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 45
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Fixed Amount",
+        "amount": 1,
+        "description": "Save ₹1 on this chicken curry."
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Mango Lassi",
+    "description": "Refreshing yogurt drink blended with sweet mangoes.",
+    "category": "Indian Beverage",
+    "brand": "Food",
+    "price": 4.99,
+    "salePrice": 3.99,
+    "costPerItem": 2.99,
+    "currency": "₹",
+    "order": 24,
+    "sku": "SKU105",
+    "attributes": [
+      {
+        "name": "Size",
+        "values": ["Small", "Medium", "Large"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.8,
+      "num_ratings": 55
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 70
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Percentage",
+        "amount": 20,
+        "description": "Get 20% off on this mango lassi."
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "name": "Butter Naan",
+    "description": "Soft and buttery Indian flatbread.",
+    "category": "Indian Food",
+    "brand": "Food",
+    "price": 2.99,
+    "salePrice": 2.49,
+    "costPerItem": 1.99,
+    "currency": "₹",
+    "order": 27,
+    "sku": "SKU106",
+    "attributes": [
+      {
+        "name": "Size",
+        "values": ["Regular", "Large"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.7,
+      "num_ratings": 65
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 35
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Fixed Amount",
+        "amount": 0.5,
+        "description": "Save $0.50 on this butter naan."
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "name": "Gulab Jamun",
+    "description": "Sweet and soft deep-fried balls soaked in sugar syrup.",
+    "category": "Indian Dessert",
+    "brand": "Food",
+    "price": 5.99,
+    "salePrice": 4.99,
+    "costPerItem": 3.99,
+    "currency": "2024-05-01",
+    "order": 30,
+    "sku": "SKU107",
+    "attributes": [
+      {
+        "name": "Serving Size",
+        "values": ["2 Pieces", "4 Pieces"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.9,
+      "num_ratings": 80
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 50
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Fixed Amount",
+        "amount": 1,
+        "description": "Save $1 on these gulab jamun."
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "name": "Samosa",
+    "description": "Crispy pastry filled with spiced potatoes and peas.",
+    "category": "Indian Snack",
+    "brand": "Food",
+    "price": 2.49,
+    "salePrice": 1.99,
+    "costPerItem": 1.49,
+    "currency": "₹",
+    "order": 35,
+    "sku": "SKU108",
+    "attributes": [
+      {
+        "name": "Spice Level",
+        "values": ["Mild", "Medium", "Spicy"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.8,
+      "num_ratings": 70
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 25
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Percentage",
+        "amount": 20,
+        "description": "Get 20% off on these samosas."
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "name": "Raita",
+    "description": "Cooling yogurt side dish with cucumbers and spices.",
+    "category": "Indian Side Dish",
+    "brand": "Food",
+    "price": 3.99,
+    "salePrice": 3.49,
+    "costPerItem": 2.99,
+    "currency": "₹",
+    "order": 40,
+    "sku": "SKU109",
+    "attributes": [
+      {
+        "name": "Type",
+        "values": ["Plain", "Cucumber", "Boondi"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.7,
+      "num_ratings": 65
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 30
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Fixed Amount",
+        "amount": 0.5,
+        "description": "Save $0.50 on this raita."
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "name": "Tandoori Chicken",
+    "description": "Marinated chicken grilled to perfection in a tandoor.",
+    "category": "Indian Food",
+    "brand": "Food",
+    "price": 15.99,
+    "salePrice": 14.99,
+    "costPerItem": 11.99,
+    "currency": "2024-05-01",
+    "order": 45,
+    "sku": "SKU110",
+    "attributes": [
+      {
+        "name": "Spice Level",
+        "values": ["Mild", "Medium", "Spicy"]
+      }
+    ],
+    "availability_dates": {
+      "start_date": "2024-05-01",
+      "end_date": "2023-10-31"
+    },
+    "ratings": {
+      "average_rating": 4.9,
+      "num_ratings": 50
+    },
+    "inventory": {
+      "in_stock": true,
+      "quantity": 20
+    },
+    "images": {
+      "thumbnail": "https://placehold.co/100/f5f5f5/b0b0b0ff.webp",
+      "gallery": [
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp",
+        "https://placehold.co/500/f5f5f5/b0b0b0ff.webp"
+      ]
+    },
+    "discounts": [
+      {
+        "discount_type": "Percentage",
+        "amount": 5,
+        "description": "Get 5% off on this tandoori chicken."
+      }
+    ]
+  }
+]
