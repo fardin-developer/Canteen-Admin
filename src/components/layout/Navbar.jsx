@@ -16,6 +16,7 @@ const Navbar = () => {
       <div className="navbar_wrapper">
         <div className="container">
           <div className="navbar_main">
+            <div></div>
             {/* <Input
               icon={<Icons.TbSearch />}
               placeholder="Search..."
