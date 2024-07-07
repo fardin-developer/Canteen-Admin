@@ -34,6 +34,7 @@ import EditBrand from "../../pages/brands/EditBrand";
 import AddCustomer from "../../pages/customers/AddCustomer";
 import EditCustomer from "../../pages/customers/EditCustomer";
 import ManageCustomer from "../../pages/customers/ManageCustomer";
+import DeliveredList from "../../pages/customers/DeliveredList.jsx"
 
 // Users
 import AddUser from "../../pages/users/AddUser";
@@ -63,6 +64,8 @@ import ManageTransactions from "../../pages/payment/ManageTransactions";
 import PaymentMethod from "../../pages/payment/PaymentMethod";
 import TransactionDetail from "../../pages/payment/TransactionDetail";
 
+import Users from "../../pages/admin/Users.jsx";
+
 // Sorting and Comments
 
 const routes = [
@@ -80,13 +83,10 @@ const routes = [
     element: <ManageProduct />,
   },
   {
-    path: "/catalog/product/manage/:productId",
+    path: "/catalog/product/edit/:id",
     element: <EditProduct />,
   },
-  {
-    path: "/catalog/product/attribute",
-    element: <Attribute />,
-  },
+
   // orders
   {
     path: "/orders/add",
@@ -119,6 +119,10 @@ const routes = [
     element: <ManageCustomer />,
   },
   {
+    path: "/customers/delivered",
+    element: <DeliveredList />,
+  },
+  {
     path: "/customers/manage/:customerId",
     element: <EditCustomer />,
   },
@@ -139,6 +143,10 @@ const routes = [
   {
     path: "/users/list",
     element: <UserList />,
+  },
+  {
+    path: "/admin/admin/users/",
+    element: <Users />,
   },
   {
     path: "/users/add",

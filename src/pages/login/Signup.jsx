@@ -6,7 +6,7 @@ import CheckBox from '../../components/common/CheckBox.jsx';
 import Logo from "../../images/common/logo-dark.svg";
 import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 
-const Signup = ({isLogin}) => {
+const Signup = () => {
 	// check user login or logout
 	const [login, setLogin] = useState(false);
 	const [loginError, setLoginError] = useState(false);
@@ -52,13 +52,13 @@ const Signup = ({isLogin}) => {
     setLogin(true);
   }
 
-  useEffect(() => {
-    isLogin(login);
+//   useEffect(() => {
+//     isLogin(login);
 
-    if (login) {
-      navigate("/");
-    }
-  }, [login, isLogin, navigate]);
+//     if (login) {
+//       navigate("/");
+//     }
+//   }, [login, isLogin, navigate]);
 	return (
 		<div className="login">
 			<div className="login_sidebar">
@@ -70,7 +70,8 @@ const Signup = ({isLogin}) => {
 				<div className="login_content">
 					{/*<h2 className="page_heading">Login</h2>*/}
 					<div to="/" className="logo">
-	          <img src={Logo} alt="logo" />
+	          {/* <img src={Logo} alt="logo" /> */}
+			  <h2>ISINE LOGO</h2>
 	        </div>
 					<h2 className="page_heading">Sign up</h2>
 				</div>		
@@ -146,14 +147,9 @@ const Signup = ({isLogin}) => {
 					</div>	
 				</form>
 				<p className="singup_link">
-					already have an account <Link to="/login">sign in Metronic</Link>
+					already have an account <Link to="/login">sign in ISINE</Link>
 				</p>
-				<button onClick={hadnleGoogleLogin} className="google_signin">
-					<figure>
-						<img src="https://img.icons8.com/color/1000/google-logo.png" alt=""/>
-					</figure>
-					<h2>signup with google</h2>
-				</button>
+		
 			</div>
 		</div>
 	)

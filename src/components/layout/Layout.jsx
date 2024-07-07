@@ -9,16 +9,18 @@ import { useSelector } from 'react-redux';
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 const Layout = () => {
-  const isAuthenticated = useSelector(state => state.authentication.isAuthenticated);
+  const isAuthenticated = useSelector(state => state.test.isAuthenticated);
+  const test = useSelector(state => state.test.data);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate("/login");
-  //   }else{
-  //     navigate("/catalog/product/manage");
-  //   }
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    console.log(test)
+    if (!isAuthenticated) {
+      navigate("/login");
+    }else{
+      navigate("/catalog/product/manage");
+    }
+  }, [isAuthenticated,test]);
 
   return (
     <>

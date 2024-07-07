@@ -276,11 +276,8 @@ const ManagePages = () => {
                         <td className="td_date">{page.template}</td>
                         <td className="td_date">{page.publish}</td>
                         <td className="td_status">
-                            {page.status.toLowerCase() === "active" ||
-                             page.status.toLowerCase() === "completed" ||
-                             page.status.toLowerCase() === "new" ||
-                             page.status.toLowerCase() === "published" ||
-                             page.status.toLowerCase() === "coming soon" ? (
+                            {
+                             true? (
                                <Badge
                                  label={page.status}
                                  className="light-success"

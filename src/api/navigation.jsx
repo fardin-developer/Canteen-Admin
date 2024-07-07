@@ -33,11 +33,11 @@ const navigation = [
         icon: <Icons.TbCategory className="menu_icon" />,
       },
       // Attributes
-      {
-        name: "Attributes",
-        url: "/product/attribute",
-        icon: <Icons.TbCalendar className="menu_icon" />,
-      },
+      // {
+      //   name: "Attributes",
+      //   url: "/product/attribute",
+      //   icon: <Icons.TbCalendar className="menu_icon" />,
+      // },
     ],
   },
   // Orders
@@ -70,6 +70,11 @@ const navigation = [
         icon: <Icons.TbList className="menu_icon" />,
       },
       {
+        name: "Delivered List",
+        url: "/delivered",
+        icon: <Icons.TbList className="menu_icon" />,
+      },
+      {
         name: "add Customers",
         url: "/add",
         icon: <Icons.TbCirclePlus className="menu_icon" />,
@@ -77,12 +82,12 @@ const navigation = [
     ]
   },
   // Reviews
-  {
-    name: "Reviews",
-    url: "/reviews",
-    icon: <Icons.TbStar className="menu_icon" />,
-  },
-  // Brand
+  // {
+  //   name: "Reviews",
+  //   url: "/reviews",
+  //   icon: <Icons.TbStar className="menu_icon" />,
+  // },
+  // // Brand
   // {
   //   name: "Brands",
   //   url: "/brands",
@@ -113,11 +118,11 @@ const navigation = [
     icon: <Icons.TbPlug className="menu_icon" />,
   },
   // Media
-  {
-    name: "Media",
-    url: "/media",
-    icon: <Icons.TbPhoto className="menu_icon" />,
-  },
+  // {
+  //   name: "Media",
+  //   url: "/media",
+  //   icon: <Icons.TbPhoto className="menu_icon" />,
+  // },
   // Payment
   {
     name: "Payment",

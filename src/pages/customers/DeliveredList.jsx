@@ -67,14 +67,14 @@ const ManageOrders = () => {
     setSelectedValue(selectedOption.label);
   };
 
-  const actionItems = ["paid", "unpaid", "Edit"];
+  const actionItems = ["delivered", "unpaid", "Edit"];
 
   const handleActionItemClick = (item, itemID) => {
     const token = cookies.token;
     var updateItem = item.toLowerCase();
-    if (updateItem === "paid") {
-      alert(`#${itemID} item paid`);
-      axios.patch(`http://localhost:8000/api/v1/orders/${itemID}?status=paid`,{
+    if (updateItem === "delivered") {
+      alert(`#${itemID} item delivered`);
+      axios.patch(`http://localhost:8000/api/v1/orders/${itemID}?status=delivered`,{
         headers:{
             'Authorization': `Bearer ${token}`
         }
@@ -92,7 +92,7 @@ const ManageOrders = () => {
     const token = cookies.token;
     settoken(token)
     setrender(false)
-    axios.get('http://localhost:8000/api/v1/orders?status=pending', {
+    axios.get('http://localhost:8000/api/v1/orders?status=delivered', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -148,7 +148,7 @@ const ManageOrders = () => {
                       <th>Amount</th>
                       <th>Payment Method</th>
                       <th>Status</th>
-                      <th>Actions</th>
+                      {/* <th>Actions</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -175,7 +175,7 @@ const ManageOrders = () => {
                           order.status.toLowerCase() === "approved" ||
                           order.status.toLowerCase() === "delivered" ||
                           order.status.toLowerCase() === "shipped" ||
-                          order.status.toLowerCase() === "new" ||
+                          order.status.toLowerCase() === "paid" ||
                           order.status.toLowerCase() === "coming soon" ? (
                             <Badge
                               label={order.status}
@@ -209,14 +209,14 @@ const ManageOrders = () => {
                             order.status
                           )}
                         </td>
-                        <td className="td_action">
+                        {/* <td className="td_action">
                           <TableAction
                             actionItems={actionItems}
                             onActionItemClick={(item) =>
                               handleActionItemClick(item, order._id)
                             }
                           />
-                        </td>
+                        </td> */}
                       </tr>
                     ))}
                   </tbody>

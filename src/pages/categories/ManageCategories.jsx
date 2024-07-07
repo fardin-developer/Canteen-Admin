@@ -1,22 +1,15 @@
-import * as Icons from "react-icons/tb";
 import React, { useState, useEffect } from "react";
-import Categories from "../../api/Categories.json";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/common/Input.jsx";
-import Badge from "../../components/common/Badge.jsx";
 import Button from "../../components/common/Button.jsx";
-import Toggler from "../../components/common/Toggler.jsx";
 import Divider from "../../components/common/Divider.jsx";
-import CheckBox from "../../components/common/CheckBox.jsx";
-import Textarea from "../../components/common/Textarea.jsx";
 import Dropdown from "../../components/common/Dropdown.jsx";
-import Thumbnail from "../../components/common/Thumbnail.jsx";
 import Pagination from "../../components/common/Pagination.jsx";
 import TableAction from "../../components/common/TableAction.jsx";
-import MultiSelect from "../../components/common/MultiSelect.jsx";
+import axios from "axios";
 
 const ManageCategories = () => {
-  const categories = Categories;
+  const [categoryArr, setCategoryArr] = useState([]);
   const navigate = useNavigate();
   const [bulkCheck, setBulkCheck] = useState(false);
   const [specificChecks, setSpecificChecks] = useState({});
@@ -30,50 +23,13 @@ const ManageCategories = () => {
 
   const [fields, setCategories] = useState({
     name: "",
-    description: "",
-    parentCategoryValue: "",
     status: "",
-    isFeatured: false
   });
 
   const handleInputChange = (key, value) => {
     setCategories({
       ...fields,
       [key]: value,
-    });
-  };
-
-  const statusOptions = [
-    { "value": "active", "label": "active" },
-    { "value": "completed", "label": "completed" },
-    { "value": "new", "label": "new" },
-    { "value": "coming soon", "label": "coming soon" },
-    { "value": "inactive", "label": "inactive" },
-    { "value": "out of stock", "label": "out of stock" },
-    { "value": "discontinued", "label": "discontinued" },
-    { "value": "on sale", "label": "on sale" },
-    { "value": "featured", "label": "featured" },
-    { "value": "pending", "label": "pending" },
-    { "value": "archive", "label": "archive" },
-    { "value": "pause", "label": "pause" }
-  ]
-
-  const parentCategories = Categories.map(category=>({
-    value: category.name,
-    label: category.name
-  }))
-
-  const selectParentCategory = (selectedOption) => {
-    setCategories({
-      ...fields,
-      parentCategoryValue: selectedOption.label,
-    });
-  };
-
-  const selectSelect = (selectedOption) => {
-    setCategories({
-      ...fields,
-      status: selectedOption.label,
     });
   };
 
@@ -91,59 +47,92 @@ const ManageCategories = () => {
     setCurrentPage(newPage);
   };
 
-  const handleBulkCheckbox = (isCheck) => {
-    setBulkCheck(isCheck);
-    if (isCheck) {
-      const updateChecks = {};
-      fields.forEach((category) => {
-        updateChecks[category.id] = true;
-      });
-      setSpecificChecks(updateChecks);
-    } else {
-      setSpecificChecks({});
-    }
-  };
-
-  const handleCheckCategory = (isCheck, id) => {
-    setSpecificChecks((prevSpecificChecks) => ({
-      ...prevSpecificChecks,
-      [id]: isCheck,
-    }));
-  };
-
   const showTableRow = (selectedOption) => {
     setSelectedValue(selectedOption.label);
   };
 
-  const handleFeaturedChange = (ischeck) => {
-    setCategories({
-      ...fields,
-      isFeatured: ischeck,
-    });
-  };
+  const actionItems = ["Delete", "edit"];
 
-    const actionItems = ["Delete", "edit"];
-
-  const handleActionItemClick = (item,itemID) => {
-    var updateItem = item.toLowerCase()
+  const handleActionItemClick = (item, itemId) => {
+    const updateItem = item.toLowerCase();
     if (updateItem === "delete") {
-      alert(`#${itemID} item delete`)
-    }
-    else if(updateItem === "edit"){
-      navigate(`/catalog/categories/manage/${itemID}`)
+      deleteCategory(itemId);
+    } else if (updateItem === "edit") {
+      navigate(`/catalog/categories/manage/${itemId}`);
     }
   };
+
+  const deleteCategory = (id) => {
+    axios
+      .delete(`http://localhost:8000/api/v1/category/${id}`)
+      .then((response) => {
+        console.log(response);
+        setCategoryArr(categoryArr.filter((category) => category._id !== id));
+        // setCategories({
+        //   ...fields,
+        //   status: 'deleted',
+        // });
+        
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const convertUTCToIST = (utcDate) => {
+    const date = new Date(utcDate);
+    const istOffset = 1;
+    const istDate = new Date(date.getTime() + istOffset);
+    const formattedDate = istDate.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    return formattedDate;
+  };
+
+  const createCategory = () => {
+    axios
+      .post("http://localhost:8000/api/v1/category", fields)
+      .then((response) => {
+        console.log(response);
+        setCategories({
+          ...fields,
+          status: 'created',
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/v1/category")
+      .then((res) => {
+        console.log(res.data);
+        setCategoryArr(res.data);
+        setCategories({
+          ...fields,
+          status: '',
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [fields.status]);
 
   return (
     <section className="categories">
       <div className="container">
         <div className="wrapper">
           <div className="sidebar">
-            <div className="sidebar_item">
-              <h2 className="sub_heading">add category</h2>
-              <div className="column">
-                <Thumbnail/>
-              </div>
+            <div className="sidebar_item" style={{ backgroundColor: "" }}>
+              <h2 className="sub_heading">Add category</h2>
               <div className="column">
                 <Input
                   type="text"
@@ -153,50 +142,15 @@ const ManageCategories = () => {
                   onChange={(value) => handleInputChange("name", value)}
                 />
               </div>
-              <div className="column">
-                <Textarea
-                  type="text"
-                  placeholder="Description"
-                  label="Name"
-                  value={fields.description}
-                  onChange={(value) => handleInputChange("description", value)}
-                />
-              </div>
-              <Divider/>
-              <div className="column">
-                <MultiSelect
-                  label="Select Parent Category"
-                  placeholder="Select Parent Category"
-                  onClick={selectParentCategory}
-                  isMulti={false}
-                  options={parentCategories}
-                  isSelected={fields.parentCategoryValue}
-                />
-              </div>
-              <div className="column">
-                <Dropdown
-                  label="Status"
-                  placeholder="Select Status"
-                  onClick={selectSelect}
-                  options={statusOptions}
-                  selectedValue={fields.status}
-                />
-              </div>
-              <div className="column">
-                <Toggler
-                  label="Is featured?"
-                  checked={fields.isFeatured}
-                  onChange={handleFeaturedChange}
-                />
-              </div>
-              <Divider/>
+              <Divider />
               <Button
                 label="Discard"
-                className="right outline"
+                className="left outline"
+                onClick={() => {
+                  navigate("/");
+                }}
               />
-              <Button
-                label="save"
-              />
+              <Button label="create" onClick={createCategory} />
             </div>
           </div>
           <div className="content transparent">
@@ -207,102 +161,35 @@ const ManageCategories = () => {
                 onClick={bulkActionDropDown}
                 options={bulkAction}
               />
-              <Input
-                placeholder="Search Categories..."
-                className="sm table_search"
-              />
-              <div className="btn_parent">
-                <Link to="/catalog/category/add" className="sm button">
-                  <Icons.TbPlus />
-                  <span>Create Categories</span>
-                </Link>
-              </div>
+              <Input placeholder="Search Categories..." className="sm table_search" />
             </div>
             <div className="content_body">
               <div className="table_responsive">
                 <table className="separate">
                   <thead>
                     <tr>
-                      <th className="td_checkbox">
-                        <CheckBox
-                          onChange={handleBulkCheckbox}
-                          isChecked={bulkCheck}
-                        />
-                      </th>
-                      <th className="td_id">id</th>
-                      <th className="td_image">image</th>
-                      <th>name</th>
-                      <th className="td_order">order</th>
-                      <th className="td_status">status</th>
-                      <th>created at</th>
-                      <th className="td_action">actions</th>
+                      <th colSpan="2">S. No.</th>
+                      <th colSpan="2">name</th>
+                      <th colSpan="2">created at</th>
+                      <th colSpan="2" className="td_action">actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {categories.map((category, key) => {
-                      return (
-                        <tr key={key}>
-                          <td className="td_checkbox">
-                            <CheckBox
-                              onChange={(isCheck) =>
-                                handleCheckCategory(isCheck, category.id)
-                              }
-                              isChecked={specificChecks[category.id] || false}
-                            />
-                          </td>
-                          <td className="td_id">{category.id}</td>
-                          <td className="td_image">
-                            <img src={category.image} alt={category.name} />
-                          </td>
-                          <td>
-                            <Link to={category.id}>{category.name}</Link>
-                          </td>
-                          <td className="td_order">{category.order}</td>
-                          <td className="td_status">
-                            {category.status.toLowerCase() === "active" ||
-                             category.status.toLowerCase() === "completed" ||
-                             category.status.toLowerCase() === "new" ||
-                             category.status.toLowerCase() === "coming soon" ? (
-                               <Badge
-                                 label={category.status}
-                                 className="light-success"
-                               />
-                             ) : category.status.toLowerCase() === "inactive" ||
-                               category.status.toLowerCase() === "out of stock" ||
-                               category.status.toLowerCase() === "discontinued" ? (
-                               <Badge
-                                 label={category.status}
-                                 className="light-danger"
-                               />
-                             ) : category.status.toLowerCase() === "on sale" ||
-                                 category.status.toLowerCase() === "featured" ||
-                                 category.status.toLowerCase() === "pending" ? (
-                               <Badge
-                                 label={category.status}
-                                 className="light-warning"
-                               />
-                             ) : category.status.toLowerCase() === "archive" ||
-                                 category.status.toLowerCase() === "pause" ? (
-                               <Badge
-                                 label={category.status}
-                                 className="light-secondary"
-                               />
-                             ) : (
-                               ""
-                             )}
-                          </td>
-                          <td>{category.start_date}</td>
-                          <td className="td_action">
-                            <TableAction
-                              actionItems={actionItems}
-                              onActionItemClick={(item) =>
-                                handleActionItemClick(item, category.id)
-                              }
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {categoryArr.map((category, key) => (
+                      <tr key={key}>
+                        <td colSpan="2">{key + 1}</td>
+                        <td colSpan="2">
+                          <Link to={category.id}>{category.name}</Link>
+                        </td>
+                        <td colSpan="2">{convertUTCToIST(category.createdAt)}</td>
+                        <td className="td_action">
+                          <TableAction
+                            actionItems={actionItems}
+                            onActionItemClick={(item) => handleActionItemClick(item, category._id)}
+                          />
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
