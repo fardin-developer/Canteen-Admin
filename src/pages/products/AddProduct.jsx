@@ -29,7 +29,7 @@ import { useNavigate } from 'react-router-dom'
 const AddProduct = ({ productData }) => {
   const [product, setProduct] = useState({
     name: '',
-    description: 'a small desc',
+    description: '',
     cost: '',
     price: '',
     sku: '',
@@ -58,12 +58,28 @@ const AddProduct = ({ productData }) => {
     attributeValue: ''
   })
 
+  const MAX_DESCRIPTION_LENGTH = 200 // Maximum description length
+
   const handleInputChange = (key, value) => {
+    if (key === 'description' && value.length > MAX_DESCRIPTION_LENGTH) {
+      toast.error(`Description cannot exceed ${MAX_DESCRIPTION_LENGTH} characters`, {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      return
+    }
     setProduct(prevProduct => ({
       ...prevProduct,
       [key]: value
     }))
   }
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -168,7 +184,7 @@ const AddProduct = ({ productData }) => {
     }
   }
 
-  const notify = () =>{
+  const notify = () => {
     toast.success('Product saved Successfully', {
       position: 'top-right',
       autoClose: 2000,
@@ -181,7 +197,7 @@ const AddProduct = ({ productData }) => {
     })
     setTimeout(() => {
       navigate('/catalog/product/manage')
-    }, 2000);
+    }, 2000)
   }
 
   const submitData = () => {
@@ -309,41 +325,6 @@ const AddProduct = ({ productData }) => {
                 selectedValue={selectedValue.category}
               />
             </div>
-            {/* <div className='sidebar_item'>
-              <h2 className='sub_heading'>
-                <span>quantity</span>
-              </h2>
-              <div className='column'>
-                <Input
-                  type='number'
-                  placeholder='Enter the product quantity'
-                  value={product.quantity}
-                  onChange={value => handleInputChange('quantity', value)}
-                  className='sm'
-                />
-              </div>
-            </div> */}
-            {/* <div className='sidebar_item'>
-              <h2 className='sub_heading'>Labels</h2>
-              <div className='sidebar_checkboxes'>
-                {labels.map(label => (
-                  <CheckBox
-                    key={label.id}
-                    id={label.id}
-                    label={`${label.name}`}
-                    isChecked={label.isChecked}
-                    onChange={isChecked =>
-                      handleCheckLabels(label.id, isChecked)
-                    }
-                  />
-                ))}
-              </div>
-            </div> */}
-            {/* <div className='sidebar_item'>
-              <h2 className='sub_heading'>tags</h2>
-              <Tagify tagsData={Tags} />
-            </div> */}
-
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Publish</h2>
               <Button

@@ -70,6 +70,7 @@ const ManageOrders = () => {
   const actionItems = ["paid", "unpaid", "Edit"];
 
   const handleActionItemClick = (item, itemID) => {
+    console.log("items"+item);
     const token = cookies.token;
     var updateItem = item.toLowerCase();
     if (updateItem === "paid") {

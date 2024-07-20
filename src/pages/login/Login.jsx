@@ -72,7 +72,8 @@ const Login = () => {
       <div className='login_form'>
         <div className='login_content'>
           <div to='/' className='logo'>
-            <img src={Logo} alt='logo' />
+            {/* <img src={Logo} alt='logo' /> */}
+            <h2 style={{width:"20px"}}>ISINE</h2>
           </div>
           <h2 className='page_heading'>Login</h2>
         </div>

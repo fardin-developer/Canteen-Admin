@@ -1,49 +1,40 @@
+import { Link, useNavigate } from "react-router-dom";
 import * as Icons from "react-icons/tb";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/common/Input.jsx";
 import Badge from "../../components/common/Badge.jsx";
-import Transactions from '../../api/Transactions.json';
 import Button from "../../components/common/Button.jsx";
 import CheckBox from "../../components/common/CheckBox.jsx";
 import Dropdown from "../../components/common/Dropdown.jsx";
-import Offcanvas from "../../components/common/Offcanvas.jsx";
 import Pagination from "../../components/common/Pagination.jsx";
 import TableAction from "../../components/common/TableAction.jsx";
-import RangeSlider from "../../components/common/RangeSlider.jsx";
-import MultiSelect from "../../components/common/MultiSelect.jsx";
+import { useCookies } from 'react-cookie';
+import axios from "axios";
+import './transaction.css';
 
 const ManageTransactions = () => {
-  const [fields, setFields] = useState({
-    name: "",
-    sku: "",
-    store: "",
-    status: "",
-    priceRange: [0,100],
-  });
+  const [cookies] = useCookies(['token']);
   const [bulkCheck, setBulkCheck] = useState(false);
   const [specificChecks, setSpecificChecks] = useState({});
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedValue, setSelectedValue] = useState(5);
+  const [orderData, setOrderData] = useState([]);
+  const navigate = useNavigate();
+  const [inputFieldVisible, setInputFieldVisible] = useState({});
+  const [paymentId, setPaymentId] = useState('');
+
   const [tableRow, setTableRow] = useState([
     { value: 2, label: "2" },
     { value: 5, label: "5" },
     { value: 10, label: "10" },
   ]);
-  const handleInputChange = (key, value) => {
-    setFields({
-      ...transaction,
-      [key]: value,
-    });
-  };
-  const transactions = Transactions;
 
   const bulkAction = [
     { value: "delete", label: "Delete" },
     { value: "category", label: "Category" },
     { value: "status", label: "Status" },
   ];
+  const [render, setrender] = useState(false);
 
   const bulkActionDropDown = (selectedOption) => {
     console.log(selectedOption);
@@ -57,8 +48,8 @@ const ManageTransactions = () => {
     setBulkCheck(isCheck);
     if (isCheck) {
       const updateChecks = {};
-      transactions.forEach((transaction) => {
-        updateChecks[transaction.id] = true;
+      orderData.forEach((order) => {
+        updateChecks[order._id] = true;
       });
       setSpecificChecks(updateChecks);
     } else {
@@ -66,7 +57,7 @@ const ManageTransactions = () => {
     }
   };
 
-  const handleCheckProduct = (isCheck, id) => {
+  const handleCheckOrder = (isCheck, id) => {
     setSpecificChecks((prevSpecificChecks) => ({
       ...prevSpecificChecks,
       [id]: isCheck,
@@ -77,164 +68,63 @@ const ManageTransactions = () => {
     setSelectedValue(selectedOption.label);
   };
 
-  const actionItems = ["Delete", "edit"];
+  const actionItems = ["paid", "unpaid", "Edit"];
 
   const handleActionItemClick = (item, itemID) => {
-    var updateItem = item.toLowerCase();
-    if (updateItem === "delete") {
-      alert(`#${itemID} item delete`);
-    } else if (updateItem === "edit") {
-      navigate(`/payment/transactions/${itemID}`);
+    if (item === 'paid') {
+      setInputFieldVisible((prevState) => ({
+        ...prevState,
+        [itemID]: !prevState[itemID],
+      }));
     }
   };
 
-  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
-
-  const handleToggleOffcanvas = () => {
-    setIsOffcanvasOpen(!isOffcanvasOpen);
-  };
-
-  const handleCloseOffcanvas = () => {
-    setIsOffcanvasOpen(false);
-  };
-
-  const handleSliderChange = (newValues) => {
-    setFields({
-      ...fields,
-      priceRange: newValues,
+  useEffect(() => {
+    const token = cookies.token;
+    setrender(false)
+    axios.get('http://localhost:8000/api/v1/orders?status=pending', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     })
-  };
+      .then((res) => {
+        setOrderData(res.data.orders);
+        console.log(res.data.orders);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [cookies.token, render]);
 
-  const stores = [
-      { label: 'FashionFiesta' },
-      { label: 'TechTreasures' },
-      { label: 'GadgetGrove' },
-      { label: 'HomeHarbor' },
-      { label: 'HealthHaven' },
-      { label: 'BeautyBoutique' },
-      { label: "Bookworm's Haven" },
-      { label: 'PetParadise' },
-      { label: 'FoodieFinds' }
-  ];
-const status = [
-    { label: 'In Stock' },
-    { label: 'Out of Stock' },
-    { label: 'Available Soon' },
-    { label: 'Backorder' },
-    { label: 'Refurbished' },
-    { label: 'On Sale' },
-    { label: 'Limited Stock' },
-    { label: 'Discontinued' },
-    { label: 'Coming Soon' },
-    { label: 'New Arrival' },
-    { label: 'Preorder' },
-];
-  const handleSelectStore = (selectedValues) => {
-    setFields({
-      ...fields,
-      store: selectedValues,
-    })
+  const handleTransactionUpdate = (orderId, status) => {
+    const token = cookies.token;
+    console.log(paymentId);
+    axios.patch(`http://localhost:8000/api/v1/orders/${orderId}?status=${status}&payment=${paymentId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
+      setrender(true);
+    }).catch((err) => {
+      console.log(err);
+    });
   };
-
-  const handleSelectStatus = (selectedValues) => {
-    setFields({
-      ...fields,
-      status: selectedValues.label,
-    })
-  };
-
 
   return (
-    <section className="transactions">
+    <section className="orders">
       <div className="container">
         <div className="wrapper">
           <div className="content transparent">
             <div className="content_head">
-              <Dropdown
-                placeholder="Bulk Action"
-                className="sm"
-                onClick={bulkActionDropDown}
-                options={bulkAction}
-              />
-              <Button
-                label="Advance Filter"
-                className="sm"
-                icon={<Icons.TbFilter />}
-                onClick={handleToggleOffcanvas}
-              />
-              <Input
-                placeholder="Search Transaction..."
-                className="sm table_search"
-              />
-              <Offcanvas
-                isOpen={isOffcanvasOpen}
-                onClose={handleCloseOffcanvas}
-              >
-                <div className="offcanvas-head">
-                  <h2>Advance Search</h2>
-                </div>
-                <div className="offcanvas-body">
-                  <div className="column">
-                    <Input
-                      type="text"
-                      placeholder="Enter the transaction name"
-                      label="Name"
-                      value={fields.name}
-                      onChange={(value) => handleInputChange("name", value)}
-                    />
-                  </div>
-                  <div className="column">
-                    <Input
-                      type="text"
-                      label="Price"
-                      value={fields.price}
-                      placeholder="Enter the transaction price"
-                      onChange={(value) => handleInputChange("price", value)}
-                    />
-                  </div>
-                  <div className="column">
-                    <MultiSelect
-                      options={stores}
-                      placeholder="Select Store"
-                      label="Store"
-                      isSelected={fields.store}
-                      onChange={handleSelectStore}
-                    />
-                  </div>
-                  <div className="column">
-                    <Dropdown
-                      options={status}
-                      placeholder="Select Store"
-                      label="Store"
-                      selectedValue={fields.status}
-                      onClick={handleSelectStatus}
-                    />
-                  </div>
-                  <div className="column">
-                    <RangeSlider label="Price range" values={fields.priceRange} onValuesChange={handleSliderChange} />
-                  </div>
-                </div>
-                <div className="offcanvas-footer">
-                  <Button
-                    label="Discard"
-                    className="sm outline"
-                    icon={<Icons.TbX />}
-                    onClick={handleCloseOffcanvas}
-                  />
-                  <Button
-                    label="Filter"
-                    className="sm"
-                    icon={<Icons.TbFilter />}
-                    onClick={handleCloseOffcanvas}
-                  />
-                </div>
-              </Offcanvas>
+              <Dropdown placeholder="Bulk Action" className="sm" onClick={bulkActionDropDown} options={bulkAction} />
+              <Input placeholder="Search Order..." className="sm table_search" />
               <div className="btn_parent">
-                <Button
-                  label="Reload"
-                  icon={<Icons.TbRefresh />}
-                  className="sm"
-                />
+                <Link to="/orders/add" className="sm button">
+                  <Icons.TbPlus />
+                  <span>Create Order</span>
+                </Link>
+                <Button label="Advance Filter" className="sm" />
+                <Button label="Save" className="sm" />
               </div>
             </div>
             <div className="content_body">
@@ -248,85 +138,103 @@ const status = [
                           isChecked={bulkCheck}
                         />
                       </th>
-                      <th className="td_id">Id</th>
-                      <th className="td_id">Charge id</th>
-                      <th>Payer name</th>
-                      <th className="td_price">Amount</th>
-                      <th className="td_date">Payment channel</th>
+                      <th className="td_id">ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Amount</th>
+                      <th>Payment Method</th>
                       <th>Status</th>
-                      <th className="td_date">Created at</th>
-                      <th>Operations</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {transactions.map((transaction, key) => {
-                      return (
-                        <tr key={key}>
+                    {orderData.map((order, key) => (
+                      <React.Fragment key={key}>
+                        <tr>
                           <td className="td_checkbox">
                             <CheckBox
                               onChange={(isCheck) =>
-                                handleCheckProduct(isCheck, transaction.id)
+                                handleCheckOrder(isCheck, order._id)
                               }
-                              isChecked={specificChecks[transaction.id] || false}
+                              isChecked={specificChecks[order._id] || false}
                             />
                           </td>
-                        <td className="td_id">{transaction.id}</td>
-                        <td className="td_id">{transaction.chargeId}</td>
-                        <td>
-                          <Link to={transaction.id}>
-                            {transaction.payerName}
-                          </Link>
-                        </td>
-                        <td className="td_price">{transaction.amount}</td>
-                        <td className="td_date">{transaction.paymentChannel}</td>
-                        <td className="td_status">
-                            {transaction.status.toLowerCase() === "active" ||
-                             transaction.status.toLowerCase() === "completed" ||
-                             transaction.status.toLowerCase() === "new" ||
-                             transaction.status.toLowerCase() === "published" ||
-                             transaction.status.toLowerCase() === "coming soon" ? (
-                               <Badge
-                                 label={transaction.status}
-                                 className="light-success"
-                               />
-                             ) : transaction.status.toLowerCase() === "inactive" ||
-                               transaction.status.toLowerCase() === "out of stock" ||
-                               transaction.status.toLowerCase() === "discontinued" ? (
-                               <Badge
-                                 label={transaction.status}
-                                 className="light-danger"
-                               />
-                             ) : transaction.status.toLowerCase() === "on sale" ||
-                                 transaction.status.toLowerCase() === "featured" ||
-                                 transaction.status.toLowerCase() === "pending" ? (
-                               <Badge
-                                 label={transaction.status}
-                                 className="light-warning"
-                               />
-                             ) : transaction.status.toLowerCase() === "archive" ||
-                                  transaction.status.toLowerCase() === "draft" ||
-                                 transaction.status.toLowerCase() === "pause" ? (
-                               <Badge
-                                 label={transaction.status}
-                                 className="light-secondary"
-                               />
-                             ) : (
-                               "No status"
-                             )}
+                          <td className="td_id">{key}</td>
+                          <td>
+                            <Link to={`/customers/manage/${order.user._id}`}>{order.user.name}</Link>
                           </td>
-                        <td className="td_date">{transaction.createdAt}</td>
+                          <td>{order.user.email}</td>
+                          <td>{order.total}</td>
+                          <td>Static method</td>
+                          <td>
+                            {order.status.toLowerCase() === "completed" || order.status.toLowerCase() === "approved" ||
+                              order.status.toLowerCase() === "delivered" || order.status.toLowerCase() === "new" ? (
+                              <Badge
+                                label={order.status}
+                                className="light-success"
+                              />
+                            ) :
+                              order.status.toLowerCase() === "out of stock" ||
+                                order.status.toLowerCase() === "rejected" ? (
+                                <Badge
+                                  label={order.status}
+                                  className="light-danger"
+                                />
+                              ) :
+                                order.status.toLowerCase() === "pending" ? (
+                                  <Badge
+                                    label={order.status}
+                                    className="light-warning"
+                                  />
+                                ) : order.status.toLowerCase() === "pause" ? (
+                                  <Badge
+                                    label={order.status}
+                                    className="light-secondary"
+                                  />
+                                ) : (
+                                  order.status
+                                )}
+                          </td>
                           <td className="td_action">
                             <TableAction
                               actionItems={actionItems}
                               onActionItemClick={(item) =>
-                                handleActionItemClick(item, transaction.id)
+                                handleActionItemClick(item, order._id)
                               }
                             />
                           </td>
                         </tr>
-                      );
-                    })}
+                        {inputFieldVisible[order._id] && (
+                          <tr id="slowDown" style={{ backgroundColor: 'yellow' }}>
+                            <td colSpan="8" style={{ padding: '10px', borderRadius: '5px', marginBottom: '10px' }}>
+                              <div className={`paymentIdInput ${inputFieldVisible[order._id] ? 'visible' : ''}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <input
+                                  type="text"
+                                  placeholder="Enter Payment ID"
+                                  value={paymentId}
+                                  onChange={(e) => setPaymentId(e.target.value)}
+                                  style={{ flex: 1, marginRight: '10px', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+                                />
+                                <button
+                                  style={{ backgroundColor: 'green', width: '60px', height: '50px', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+                                  onClick={() => handleTransactionUpdate(order._id, 'paid')}
+                                >
+                                  Paid
+                                </button>
+                                <button
+                                  style={{ backgroundColor: 'red', width: '80px', height: '50px', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '10px', padding: '0 10px' }}
+                                  onClick={() => handleTransactionUpdate(order._id, 'unpaid')}
+                                >
+                                  Unpaid
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    ))}
                   </tbody>
+
                 </table>
               </div>
             </div>

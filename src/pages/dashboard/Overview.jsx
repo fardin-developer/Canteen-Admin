@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import * as Icons from "react-icons/tb";
 import Bar from '../../charts/Bar.jsx';
@@ -7,8 +7,19 @@ import Products from '../../api/Products.json';
 import Badge from '../../components/common/Badge.jsx';
 import Button from '../../components/common/Button.jsx';
 import Profile from '../../components/common/Profile.jsx';
+import axios from 'axios';
 
 const Overview = () => {
+	// const [field, setFields] = useState({
+	// 	sales:''
+	// })
+
+	
+  axios.get('http://localhost:8000/api/v1/dashboard')
+  .then((res)=>{
+	console.log(res.data);
+	console.log('success');
+  })
 	return (
 		<section>
 			<div className="container">
