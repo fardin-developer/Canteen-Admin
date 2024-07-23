@@ -23,7 +23,7 @@ import ManageProduct from "../../pages/products/ManageProduct";
 // Orders
 import AddOrder from "../../pages/orders/AddOrder";
 import ManageOrder from "../../pages/orders/ManageOrder";
-import OrderDetail from "../../pages/orders/OrderDetail";
+import OrderDetail from "../../pages/orders/DeliveredList.jsx";
 
 // brand
 import AddBrand from "../../pages/brands/AddBrand";
@@ -42,8 +42,8 @@ import EditUser from "../../pages/users/EditUser";
 import UserList from "../../pages/users/UserList";
 
 // Venue
-import AddVenue from "../../pages/venue/AddVenue";
-import ManageVenue from "../../pages/venue/ManageVenue";
+import AddVenue from "../../pages/Sales/AddVenue.jsx";
+import ManageVenue from "../../pages/Sales/ManageVenue.jsx";
 
 // Categories
 import AddCategories from "../../pages/categories/AddCategories";
@@ -65,6 +65,7 @@ import PaymentMethod from "../../pages/payment/PaymentMethod";
 import TransactionDetail from "../../pages/payment/TransactionDetail";
 
 import Users from "../../pages/admin/Users.jsx";
+import Roles from "../../pages/admin/Roles.jsx";
 
 // Sorting and Comments
 
@@ -97,9 +98,10 @@ const routes = [
     element: <ManageOrder />,
   },
   {
-    path: "/orders/manage/:orderID",
+    path: "/orders/delivered",
     element: <OrderDetail />,
   },
+
   // Catalog Categories
   {
     path: "/catalog/categories/manage",
@@ -162,7 +164,7 @@ const routes = [
     element: <AddVenue />,
   },
   {
-    path: "/venue/manage",
+    path: "/paid",
     element: <ManageVenue />,
   },
   // Reviews
@@ -233,6 +235,10 @@ const routes = [
   {
     path: "/setting/api",
     element: <Api />,
+  },
+  {
+    path: "/admin/admin/roles",
+    element: <Roles />,
   },
   // Not Found
   {

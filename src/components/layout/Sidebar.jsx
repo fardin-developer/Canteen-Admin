@@ -18,10 +18,14 @@ const Sidebar = () => {
   const handleSidebar = () => {
     setSidebar(!sidebar);
   };
-
   const handleIsLogout = () => {
-    dispatch(logout())
+    // Set the token cookie to expire immediately
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    
+    // Optionally, you can redirect the user to the login page or home page after logout
+    window.location.href = '/login'; // Change the URL to your desired location
   };
+  
 
   return (
     <div className={`sidemenu ${sidebar ? 'active' : ''}`}>

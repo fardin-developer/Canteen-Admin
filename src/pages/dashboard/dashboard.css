@@ -1,0 +1,89 @@
+@media screen and (max-width:720px) {
+    .dashboardWrappper{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recent_orders{
+        background-color: yellow;
+    }
+    .dashBoard-best-selling{
+      background-color: green;
+      padding: 20px;
+      margin-top: 50px;
+      max-width: 100%;
+    }
+}
+
+.dashBoard-best-selling {
+  overflow-x: auto; 
+  max-width: 100vw; 
+}
+
+.dashBoard-best-selling .table-wrapper {
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch; 
+}
+
+.dashBoard-best-selling .simple {
+  width: 100%; 
+  min-width: 600px;
+  border-collapse: collapse; 
+}
+
+.dashBoard-best-selling th,
+.dashBoard-best-selling td {
+  padding: 8px 16px; 
+}
+
+.dashBoard-best-selling th {
+  background-color: #f4f4f4;
+  text-align: left; 
+}
+
+@media (max-width: 768px) {
+  .dashBoard-best-selling {
+    max-width: 100vw; 
+  }
+}
+
+
+.daily-sales{
+  overflow-x: auto; 
+  max-width: 100vw; 
+}
+
+.table-wrapper {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  width: 100%; /* Ensure the div doesn't exceed the viewport width */
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+}
+
+.simple {
+  width: 100%; /* Ensure the table takes full width of the wrapper */
+  min-width: 100%; /* Set a minimum width for the table to ensure horizontal scroll */
+  border-collapse: collapse; /* Collapse borders */
+}
+
+th,
+td {
+  padding: 8px 16px; 
+  text-align: center;
+}
+
+th {
+  background-color: #f4f4f4; /* Add background color to table headers */
+  text-align: left; /* Align text to the left */
+}
+
+@media (max-width: 768px) {
+  .table-wrapper {
+    max-width: 100vw; /* Ensure the div doesn't exceed the viewport width on mobile */
+  }
+}
+
+#category{
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+}

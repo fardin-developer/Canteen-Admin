@@ -43,7 +43,7 @@ const Login = () => {
     const resultAction = await dispatch(
       login({ email: formData.email, password: formData.password, extra: { cookies: { set: setCookie } } })
     );
-    console.log("dhsa"+resultAction);
+    console.log(resultAction.payload.user);
 
     if (login.fulfilled.match(resultAction)) {
       const userData = resultAction.payload;

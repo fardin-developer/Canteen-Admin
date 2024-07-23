@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import * as Icons from "react-icons/tb";
 import Button from "./Button.jsx";
 
-const DropZone = () => {
+const DropZone = ({ onFileChange }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const onDrop = useCallback(acceptedFiles => {
@@ -12,7 +12,9 @@ const DropZone = () => {
       id: Date.now() + file.name // Assign a unique ID to each file
     }));
     setUploadedFiles(prevFiles => [...prevFiles, ...filesWithPreview]);
-  }, []);
+    // Call parent component's function to pass file data
+    onFileChange(filesWithPreview[0]); // Assuming single file upload
+  }, [onFileChange]);
 
   const onDelete = id => {
     setUploadedFiles(prevFiles => prevFiles.filter(file => file.id !== id));

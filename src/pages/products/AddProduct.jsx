@@ -1,32 +1,17 @@
-import * as Icons from 'react-icons/tb'
-import Tags from '../../api/Tags.json'
-import Taxes from '../../api/Taxes.json'
-import Labels from '../../api/Labels.json'
-import Products from '../../api/Products.json'
-import React, { useState, useEffect } from 'react'
-import Variations from '../../api/Variations.json'
-import Colloctions from '../../api/Colloctions.json'
-import Modal from '../../components/common/Modal.jsx'
-import Input from '../../components/common/Input.jsx'
-import Tagify from '../../components/common/Tagify.jsx'
-import Button from '../../components/common/Button.jsx'
-import Attributes from '../../api/ProductAttributes.json'
-import Divider from '../../components/common/Divider.jsx'
-import CheckBox from '../../components/common/CheckBox.jsx'
-import Dropdown from '../../components/common/Dropdown.jsx'
-import Textarea from '../../components/common/Textarea.jsx'
-import Offcanvas from '../../components/common/Offcanvas.jsx'
-import Accordion from '../../components/common/Accordion.jsx'
-import FileUpload from '../../components/common/FileUpload.jsx'
-import TextEditor from '../../components/common/TextEditor.jsx'
-import TableAction from '../../components/common/TableAction.jsx'
-import MultiSelect from '../../components/common/MultiSelect.jsx'
-import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { useNavigate } from 'react-router-dom'
+import * as Icons from 'react-icons/tb';
+import Labels from '../../api/Labels.json';
+import React, { useState, useEffect } from 'react';
+import Input from '../../components/common/Input.jsx';
+import Button from '../../components/common/Button.jsx';
+import Dropdown from '../../components/common/Dropdown.jsx';
+import DropZone from '../../components/common/FileUpload.jsx';
+import TextEditor from '../../components/common/TextEditor.jsx';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
-const AddProduct = ({ productData }) => {
+const AddProduct = ( ) => {
   const [product, setProduct] = useState({
     name: '',
     description: '',
@@ -39,7 +24,7 @@ const AddProduct = ({ productData }) => {
     category: '',
     stock: ''
     // user: '6664287d08cf545c449aa6dd'
-  })
+  });
 
   const [selectOptions, setSelectOptions] = useState([
     {
@@ -50,15 +35,15 @@ const AddProduct = ({ productData }) => {
       value: 'false',
       label: 'unavailable'
     }
-  ])
+  ]);
 
   const [selectedValue, setSelectedValue] = useState({
     stockValue: '',
     attribute: '',
     attributeValue: ''
-  })
+  });
 
-  const MAX_DESCRIPTION_LENGTH = 200 // Maximum description length
+  const MAX_DESCRIPTION_LENGTH = 200; // Maximum description length
 
   const handleInputChange = (key, value) => {
     if (key === 'description' && value.length > MAX_DESCRIPTION_LENGTH) {
@@ -71,48 +56,48 @@ const AddProduct = ({ productData }) => {
         draggable: true,
         progress: undefined,
         theme: 'light',
-      })
-      return
+      });
+      return;
     }
     setProduct(prevProduct => ({
       ...prevProduct,
       [key]: value
-    }))
-  }
+    }));
+  };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const profit = product.price - product.cost
-    const margin = (profit / product.price) * 100
+    const profit = product.price - product.cost;
+    const margin = (profit / product.price) * 100;
     setProduct(prevProduct => ({
       ...prevProduct,
       profit: profit,
       margin: margin ? margin : ''
-    }))
-  }, [product.cost, product.price])
+    }));
+  }, [product.cost, product.price]);
 
   const handleStockSelect = selectedOption => {
     setProduct(prevProduct => ({
       ...prevProduct,
       stock: selectedOption.label
-    }))
+    }));
     setSelectedValue(prevSelectedValue => ({
       ...prevSelectedValue,
       stockValue: selectedOption.label
-    }))
-  }
+    }));
+  };
 
   const handleCategorySelect = selectedOption => {
     setProduct(prevProduct => ({
       ...prevProduct,
       category: selectedOption.label
-    }))
+    }));
     setSelectedValue(prevSelectedValue => ({
       ...prevSelectedValue,
       category: selectedOption.label
-    }))
-  }
+    }));
+  };
 
   const categoryOptions = [
     { value: 'breakfast', label: 'breakfast' },
@@ -120,69 +105,33 @@ const AddProduct = ({ productData }) => {
     { value: 'snacks', label: 'snacks' },
     { value: 'juice', label: 'juice' },
     { value: 'others', label: 'others' }
-  ]
+  ];
 
-  const [labels, setLabels] = useState(Labels)
+  const [labels, setLabels] = useState(Labels);
 
   const handleCheckTax = (id, checked) => {
     setTaxes(prevCheckboxes =>
       prevCheckboxes.map(checkbox =>
         checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
       )
-    )
-  }
+    );
+  };
 
   const handleCheckCollection = (id, checked) => {
-    setColloctions(prevCheckboxes =>
+    setCollections(prevCheckboxes =>
       prevCheckboxes.map(checkbox =>
         checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
       )
-    )
-  }
+    );
+  };
 
   const handleCheckLabels = (id, checked) => {
     setLabels(prevCheckboxes =>
       prevCheckboxes.map(checkbox =>
         checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
       )
-    )
-  }
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const openModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
-
-  const getAttributesString = attributes => {
-    const availableAttributes = Object.values(attributes).filter(value => value)
-    return availableAttributes.join(' / ')
-  }
-
-  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false)
-
-  const handleOpenOffcanvas = () => {
-    setIsOffcanvasOpen(true)
-  }
-
-  const handleCloseOffcanvas = () => {
-    setIsOffcanvasOpen(false)
-  }
-
-  const actionItems = ['Delete', 'View']
-
-  const handleActionItemClick = (item, itemID) => {
-    var updateItem = item.toLowerCase()
-    if (updateItem === 'delete') {
-      alert(`#${itemID} item delete`)
-    } else if (updateItem === 'view') {
-      setIsOffcanvasOpen(true)
-    }
-  }
+    );
+  };
 
   const notify = () => {
     toast.success('Product saved Successfully', {
@@ -194,39 +143,53 @@ const AddProduct = ({ productData }) => {
       draggable: true,
       progress: undefined,
       theme: 'light',
-    })
+    });
     setTimeout(() => {
-      navigate('/catalog/product/manage')
-    }, 2000)
-  }
+      navigate('/catalog/product/manage');
+    }, 2000);
+  };
+
+  const [imageFile, setImageFile] = useState(null);
+
+  const handleFileChange = (file) => {
+    setProduct(prevProduct => ({
+      ...prevProduct,
+      productImg: file // Assuming 'productImg' matches your backend's expected field name
+    }));
+  };
 
   const submitData = () => {
-    const mealdata = product
-    console.log(mealdata)
+    const formData = new FormData();
+    Object.keys(product).forEach(key => {
+      formData.append(key, product[key]);
+    });
+    if (imageFile) {
+      formData.append('productImg', imageFile);
+    }
 
     axios
-      .post('http://localhost:8000/api/v1/meals', mealdata)
+      .post('http://localhost:8000/api/v1/meals', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       .then(response => {
-        console.log('Response Status:', response.status) // Logs the status code
-        console.log('Response Data:', response.data) // Logs the response data
-        console.log('Response:', response)
-        notify()
+        console.log('Response Status:', response.status); // Logs the status code
+        console.log('Response Data:', response.data); // Logs the response data
+        console.log('Response:', response);
+        notify();
       })
       .catch(error => {
         if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log('Response error:', error.response.data)
+          console.log('Response error:', error.response.data);
         } else if (error.request) {
-          // The request was made but no response was received
-          console.log('Request error:', error.request)
+          console.log('Request error:', error.request);
         } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error:', error.message)
+          console.log('Error:', error.message);
         }
-        console.log('Error config:', error.config)
-      })
-  }
+        console.log('Error config:', error.config);
+      });
+  };
 
   return (
     <section>
@@ -256,8 +219,8 @@ const AddProduct = ({ productData }) => {
             </div>
             <div className='content_item'>
               <h2 className='sub_heading'>Product Images</h2>
-              <FileUpload />
-            </div>
+              <DropZone onFileChange={handleFileChange} />
+              </div>
             <div className='content_item'>
               <h2 className='sub_heading'>Pricing</h2>
               <div className='column_2'>
@@ -302,7 +265,7 @@ const AddProduct = ({ productData }) => {
               </div>
             </div>
           </div>
-          <div className='sidebar'>
+          <div className='sidebar' style={{display:'block'}}>
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Stock status</h2>
               <div className='column'>
@@ -357,7 +320,7 @@ const AddProduct = ({ productData }) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default AddProduct
+export default AddProduct;

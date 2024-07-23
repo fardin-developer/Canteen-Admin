@@ -1,12 +1,8 @@
-
-.paymentIdContainer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100vw;
+.table_responsive {
+  position: relative;
+  max-height: 70vh; 
+  overflow-y: auto;
 }
 
-.paymentIdInput {
-  display: flex;
-  align-items: center;
-}
+
+

@@ -7,16 +7,10 @@ const Footer = () => {
       <div className="container">
       <div className="footer">
       	
-      	<p>&copy; {new Date().getFullYear()} Your Website. All rights reserved.</p>
+      	<p>&copy; {new Date().getFullYear()} ISINE Website. All rights reserved.</p>
         <ul>
           <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/settings">settings</Link>
-          </li>
-          <li>
-            <Link to="/settings/Security">Security</Link>
+            <Link to="/paid">Home</Link>
           </li>
         </ul>
       </div>

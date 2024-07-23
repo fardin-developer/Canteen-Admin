@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as Icons from "react-icons/tb";
 import Input from '../common/Input.jsx';
 import Profile from '../common/Profile.jsx';
-import ProfileImg from '../../images/users/fardin.jpeg';
+import gravatar from 'gravatar-url';
 
 const Navbar = () => {
-  const [user] = useState({
-    username: "Fardin",
-    email: "your@email.com", // Replace with your user data
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    role:''
   });
+
+  useEffect(() => {
+    const localStorageUser = JSON.parse(localStorage.getItem('user'));
+    if (localStorageUser) {
+      setUser({
+        username: localStorageUser.name,
+        email: localStorageUser.email || "", // Ensure email is an empty string if undefined
+        role: localStorageUser.role || "", // Ensure email is an empty string if undefined
+      });
+    }
+  }, []);
+
+  // Generate Gravatar URL
+  const profileImageUrl = user.email ? gravatar(user.email, {
+    size: 80, // Size of the avatar
+    default: 'retro' // Default avatar if none is found
+  }) : ''; // Provide an empty string or a default image URL if email is not available
 
   return (
     <div className="navbar">
@@ -37,9 +55,9 @@ const Navbar = () => {
               </Link>
               <Profile
                 name={user.username}
-                slogan={user.email}
+                slogan={user.role}
                 className="admin_profile"
-                src={ProfileImg}
+                src={profileImageUrl}
               />
             </div>
           </div>

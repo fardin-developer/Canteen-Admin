@@ -130,7 +130,7 @@ const ManageCategories = () => {
     <section className="categories">
       <div className="container">
         <div className="wrapper">
-          <div className="sidebar">
+          <div className="sidebar" style={{display:'block',width:'30%'}}>
             <div className="sidebar_item" style={{ backgroundColor: "" }}>
               <h2 className="sub_heading">Add category</h2>
               <div className="column">
@@ -155,13 +155,13 @@ const ManageCategories = () => {
           </div>
           <div className="content transparent">
             <div className="content_head">
-              <Dropdown
+              {/* <Dropdown
                 placeholder="Bulk Action"
                 className="sm"
                 onClick={bulkActionDropDown}
                 options={bulkAction}
-              />
-              <Input placeholder="Search Categories..." className="sm table_search" />
+              /> */}
+              {/* <Input placeholder="Search Categories..." className="sm table_search" /> */}
             </div>
             <div className="content_body">
               <div className="table_responsive">
@@ -194,7 +194,7 @@ const ManageCategories = () => {
                 </table>
               </div>
             </div>
-            <div className="content_footer">
+            {/* <div className="content_footer">
               <Dropdown
                 className="top show_rows sm"
                 placeholder="please select"
@@ -207,7 +207,7 @@ const ManageCategories = () => {
                 totalPages={5}
                 onPageChange={onPageChange}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

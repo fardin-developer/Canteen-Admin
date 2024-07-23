@@ -479,7 +479,7 @@ footer .container {
   grid-gap: 10px;
   flex: 0 0 80px;
 
-  padding: 15px;
+  padding: 5px 30px;
   background: rgb(31 40 57);
   position: relative;
   border-bottom: 1px solid rgb(71 80 99);
@@ -505,6 +505,9 @@ footer .container {
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  li{
+    padding: 10px 0px;
+  }
 }
 
 .menu_main::-webkit-scrollbar {
@@ -751,6 +754,8 @@ li:has(.sub_menu.active)>.menu_link svg:not(.menu_icon) {
   grid-gap: 20px;
 }
 
+
+
 .content {
   display: flex;
   flex-direction: column;
@@ -761,10 +766,7 @@ li:has(.sub_menu.active)>.menu_link svg:not(.menu_icon) {
 }
 
 .sidebar {
-  grid-gap: 20px;
-  display: flex;
-  flex: 0 0 300px;
-  flex-direction: column;
+display:none
 }
 
 .content:not(:has(.content_item)) {
@@ -1651,11 +1653,17 @@ d1iv[class^="column_"]>* {
   display: flex;
   flex-wrap: wrap;
   grid-gap: 40px;
+ display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 2fr));
+  justify-content: space-around;
+  align-items: center;
 }
 
 .sale_overview>* {
   flex: 1;
 }
+
+
 
 .sale_overview_card {
   align-items: center;
@@ -1874,6 +1882,7 @@ d1iv[class^="column_"]>* {
   .profile_name {
     opacity: 1;
   }
+  
 }
 
 @media (max-width: 600px) {
@@ -1894,5 +1903,29 @@ d1iv[class^="column_"]>* {
 
   .me_filter {
     max-width: 100%;
+  }
+  .sale_overview{
+    grid-template-columns: repeat(auto-fit, minmax(120px, 2fr));
+
+  }
+  .footer ul{
+    display: none;
+  }
+ 
+  footer .container{
+    padding: 10px;
+    background-color: gray;
+    
+
+    
+  }
+  .footer {
+    font-size: small;
+    text-align: center;
+    justify-content: center;
+    p{
+      color:rgb(229, 223, 223)
+    }
+
   }
 }

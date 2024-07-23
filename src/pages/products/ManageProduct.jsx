@@ -195,21 +195,22 @@ const ManageProduct = () => {
         <div className='wrapper'>
           <div className='content transparent'>
             <div className='content_head'>
-              <Dropdown
+              {/* <Dropdown
                 placeholder='Bulk Action'
                 className='sm'
                 onClick={bulkActionDropDown}
                 options={bulkAction}
               />
-              <Button
-                label='Advance Filter'
-                className='sm'
-                icon={<Icons.TbFilter />}
-                onClick={handleToggleOffcanvas}
-              />
+             */}
               <Input
                 placeholder='Search Product...'
                 className='sm table_search'
+              />
+                <Button
+                label='Search'
+                className='sm'
+                icon={<Icons.TbSearch />}
+                onClick={handleToggleOffcanvas}
               />
               <Offcanvas
                 isOpen={isOffcanvasOpen}

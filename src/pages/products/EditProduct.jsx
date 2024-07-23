@@ -214,7 +214,7 @@ const AddProduct = ({ productData }) => {
               </div>
             </div>
           </div>
-          <div className='sidebar'>
+          <div className='sidebar' style={{display:'block'}}>
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Stock status</h2>
               <div className='column'>

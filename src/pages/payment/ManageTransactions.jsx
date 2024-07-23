@@ -1,12 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
-import * as Icons from "react-icons/tb";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import Input from "../../components/common/Input.jsx";
 import Badge from "../../components/common/Badge.jsx";
-import Button from "../../components/common/Button.jsx";
 import CheckBox from "../../components/common/CheckBox.jsx";
-import Dropdown from "../../components/common/Dropdown.jsx";
-import Pagination from "../../components/common/Pagination.jsx";
 import TableAction from "../../components/common/TableAction.jsx";
 import { useCookies } from 'react-cookie';
 import axios from "axios";
@@ -16,12 +11,11 @@ const ManageTransactions = () => {
   const [cookies] = useCookies(['token']);
   const [bulkCheck, setBulkCheck] = useState(false);
   const [specificChecks, setSpecificChecks] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedValue, setSelectedValue] = useState(5);
   const [orderData, setOrderData] = useState([]);
-  const navigate = useNavigate();
   const [inputFieldVisible, setInputFieldVisible] = useState({});
   const [paymentId, setPaymentId] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredOrderData, setFilteredOrderData] = useState([]);
 
   const [tableRow, setTableRow] = useState([
     { value: 2, label: "2" },
@@ -34,7 +28,7 @@ const ManageTransactions = () => {
     { value: "category", label: "Category" },
     { value: "status", label: "Status" },
   ];
-  const [render, setrender] = useState(false);
+  const [render, setRender] = useState(false);
 
   const bulkActionDropDown = (selectedOption) => {
     console.log(selectedOption);
@@ -81,7 +75,7 @@ const ManageTransactions = () => {
 
   useEffect(() => {
     const token = cookies.token;
-    setrender(false)
+    setRender(false)
     axios.get('http://localhost:8000/api/v1/orders?status=pending', {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -89,12 +83,26 @@ const ManageTransactions = () => {
     })
       .then((res) => {
         setOrderData(res.data.orders);
+        setFilteredOrderData(res.data.orders);
         console.log(res.data.orders);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [cookies.token, render]);
+
+  useEffect(() => {
+    const filtered = orderData.filter(order => {
+      const user = order.user;
+      return user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+             user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    setFilteredOrderData(filtered);
+  }, [searchTerm, orderData]);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   const handleTransactionUpdate = (orderId, status) => {
     const token = cookies.token;
@@ -104,7 +112,7 @@ const ManageTransactions = () => {
         'Authorization': `Bearer ${token}`
       }
     }).then((res) => {
-      setrender(true);
+      setRender(true);
     }).catch((err) => {
       console.log(err);
     });
@@ -114,18 +122,16 @@ const ManageTransactions = () => {
     <section className="orders">
       <div className="container">
         <div className="wrapper">
-          <div className="content transparent">
-            <div className="content_head">
-              <Dropdown placeholder="Bulk Action" className="sm" onClick={bulkActionDropDown} options={bulkAction} />
-              <Input placeholder="Search Order..." className="sm table_search" />
-              <div className="btn_parent">
-                <Link to="/orders/add" className="sm button">
-                  <Icons.TbPlus />
-                  <span>Create Order</span>
-                </Link>
-                <Button label="Advance Filter" className="sm" />
-                <Button label="Save" className="sm" />
-              </div>
+          <div className="content transparent" style={{marginTop:'-10px'}}>
+            <div className="content_head" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(229 229 229)', padding: '20px' }}>
+              <input 
+                type="text"
+                placeholder="Search Transactions..." 
+                className="sm table_search" 
+                value={searchTerm} 
+                onChange={handleSearchChange}
+                style={{ padding: '15px 45px', borderRadius: '5px', border: '1px solid #ccc',width:'60%' }}
+              />
             </div>
             <div className="content_body">
               <div className="table_responsive">
@@ -148,7 +154,7 @@ const ManageTransactions = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {orderData.map((order, key) => (
+                    {filteredOrderData.map((order, key) => (
                       <React.Fragment key={key}>
                         <tr>
                           <td className="td_checkbox">
@@ -234,24 +240,11 @@ const ManageTransactions = () => {
                       </React.Fragment>
                     ))}
                   </tbody>
-
                 </table>
               </div>
+
             </div>
-            <div className="content_footer">
-              <Dropdown
-                className="top show_rows sm"
-                placeholder="please select"
-                selectedValue={selectedValue}
-                onClick={showTableRow}
-                options={tableRow}
-              />
-              <Pagination
-                currentPage={currentPage}
-                totalPages={5}
-                onPageChange={onPageChange}
-              />
-            </div>
+         
           </div>
         </div>
       </div>

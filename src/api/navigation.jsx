@@ -40,6 +40,26 @@ const navigation = [
       // },
     ],
   },
+  // Payment
+  {
+    name: "Payment",
+    url: "/payment",
+    icon: <Icons.TbCreditCard className="menu_icon" />,
+    subMenu: [
+      // Transactions
+      {
+        name: "Transactions",
+        url: "/transactions",
+        icon: <Icons.TbCurrencyDollar className="menu_icon" />,
+      },
+      // Payment Methods
+      {
+        name: "Payment Methods",
+        url: "/payment-method",
+        icon: <Icons.TbDeviceMobileDollar className="menu_icon" />,
+      },
+    ],
+  },
   // Orders
   {
     name: "Orders",
@@ -52,35 +72,40 @@ const navigation = [
         icon: <Icons.TbList className="menu_icon" />,
       },
       {
-        name: "add Order",
-        url: "/add",
-        icon: <Icons.TbCirclePlus className="menu_icon" />,
-      },
+        name: "Delivered",
+        url: "/delivered",
+        icon: <Icons.TbCheck className="menu_icon" />,
+      }
+      // {
+      //   name: "add Order",
+      //   url: "/add",
+      //   icon: <Icons.TbCirclePlus className="menu_icon" />,
+      // },
     ]
   },
   // Customers
-  {
-    name: "Customers",
-    url: "/customers",
-    icon: <Icons.TbUsers className="menu_icon" />,
-    subMenu:[
-      {
-        name: "Manage Customers",
-        url: "/manage",
-        icon: <Icons.TbList className="menu_icon" />,
-      },
-      {
-        name: "Delivered List",
-        url: "/delivered",
-        icon: <Icons.TbList className="menu_icon" />,
-      },
-      {
-        name: "add Customers",
-        url: "/add",
-        icon: <Icons.TbCirclePlus className="menu_icon" />,
-      },
-    ]
-  },
+  // {
+  //   name: "Customers",
+  //   url: "/customers",
+  //   icon: <Icons.TbUsers className="menu_icon" />,
+  //   subMenu:[
+  //     {
+  //       name: "Manage Customers",
+  //       url: "/manage",
+  //       icon: <Icons.TbList className="menu_icon" />,
+  //     },
+  //     {
+  //       name: "Delivered List",
+  //       url: "/delivered",
+  //       icon: <Icons.TbList className="menu_icon" />,
+  //     },
+  //     // {
+  //     //   name: "add Customers",
+  //     //   url: "/add",
+  //     //   icon: <Icons.TbCirclePlus className="menu_icon" />,
+  //     // },
+  //   ]
+  // },
   // Reviews
   // {
   //   name: "Reviews",
@@ -108,41 +133,22 @@ const navigation = [
   // Sales
   {
     name: "Sales",
-    url: "/venue",
+    url: "/paid",
     icon: <Icons.TbCurrencyDollar className="menu_icon" />,
   },
   // Pages
-  {
-    name: "Pages",
-    url: "/pages",
-    icon: <Icons.TbPlug className="menu_icon" />,
-  },
+  // {
+  //   name: "Pages",
+  //   url: "/pages",
+  //   icon: <Icons.TbPlug className="menu_icon" />,
+  // },
   // Media
   // {
   //   name: "Media",
   //   url: "/media",
   //   icon: <Icons.TbPhoto className="menu_icon" />,
   // },
-  // Payment
-  {
-    name: "Payment",
-    url: "/payment",
-    icon: <Icons.TbCreditCard className="menu_icon" />,
-    subMenu: [
-      // Transactions
-      {
-        name: "Transactions",
-        url: "/transactions",
-        icon: <Icons.TbCurrencyDollar className="menu_icon" />,
-      },
-      // Payment Methods
-      {
-        name: "Payment Methods",
-        url: "/payment-method",
-        icon: <Icons.TbDeviceMobileDollar className="menu_icon" />,
-      },
-    ],
-  },
+  
   // Settings
   {
     name: "Settings",
@@ -150,11 +156,11 @@ const navigation = [
     icon: <Icons.TbSettings className="menu_icon" />,
     subMenu: [
       // General
-      {
-        name: "General",
-        url: "/general",
-        icon: <Icons.TbSettings className="menu_icon" />,
-      },
+      // {
+      //   name: "General",
+      //   url: "/general",
+      //   icon: <Icons.TbSettings className="menu_icon" />,
+      // },
       // Email
       // {
       //   name: "Email",
