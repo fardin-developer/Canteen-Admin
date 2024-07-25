@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../../components/common/Button.jsx';
-import './Roles.css';
+import './roles.css';
 
 const Roles = () => {
   const [email, setEmail] = useState('');
