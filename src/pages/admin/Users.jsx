@@ -15,12 +15,12 @@ const ManageStudents = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedValue, setSelectedValue] = useState(5);
   const [StudentData, setStudentData] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [specificChecks, setSpecificChecks] = useState({});
   const [bulkCheck, setBulkCheck] = useState(false);
   const [viewedStudent, setViewedStudent] = useState(null);
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [userVerify, setuserVerify] = useState(false)
-
 
   const tableRow = [
     { value: 2, label: '2' },
@@ -63,6 +63,7 @@ const ManageStudents = () => {
 
   const showTableRow = selectedOption => {
     setSelectedValue(selectedOption.label);
+    setCurrentPage(1); // Reset to first page when changing rows per page
   };
 
   const actionItems = ['View', 'Delete'];
@@ -77,12 +78,20 @@ const ManageStudents = () => {
     }
   };
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/api/v1/users')
+  const fetchStudents = (page, limit) => {
+    axios.get(`https://canteen.fardindev.me/api/v1/users?page=${page}&limit=${limit}`)
       .then(res => {
         setStudentData(res.data.users);
+        setTotalPages(res.data.totalPages);
+      })
+      .catch(err => {
+        console.error("Error fetching data:", err);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchStudents(currentPage, selectedValue);
+  }, [currentPage, selectedValue]);
 
   const handleCloseOverlay = () => {
     setIsOverlayVisible(false);
@@ -90,34 +99,24 @@ const ManageStudents = () => {
   };
 
   const refreshData = () => {
-    axios.get('http://localhost:8000/api/v1/users')
-      .then(res => {
-        setStudentData(res.data.users);
-      })
-      .catch(err => {
-        console.error("Error fetching data:", err);
-      });
+    fetchStudents(currentPage, selectedValue);
   };
 
   const handleVerifyStudent = (student, status) => {
     console.log(status);
-    axios.get(`http://localhost:8000/api/v1/users/verify-user?id=${student._id}&status=${status}`)
+    axios.get(`https://canteen.fardindev.me/api/v1/users/verify-user?id=${student._id}&status=${status}`)
       .then((res) => {
         console.log(res.data.success);
         if (res.data.success) {
           setuserVerify(true)
         }
         refreshData();
-        // Optionally, close the overlay if needed
         handleCloseOverlay();
-
       })
       .catch(err => {
         console.error("Error verifying student:", err);
       });
   };
-
-
 
   return (
     <section className='students'>
@@ -159,11 +158,7 @@ const ManageStudents = () => {
                         <td>{student.rollno}</td>
                         <td>{student.dept}</td>
                         <td>
-                          {
-                            student.verified ? <Badge label='verified' className='light-success' /> :
-                              <Badge label='not verified' className='light-danger' />
-                          }
-
+                          {student.verified ? <Badge label='verified' className='light-success' /> : <Badge label='not verified' className='light-danger' />}
                         </td>
                         <td className='td_action'>
                           <button onClick={() => handleActionItemClick('view', student)}>View</button>
@@ -184,7 +179,7 @@ const ManageStudents = () => {
               />
               <Pagination
                 currentPage={currentPage}
-                totalPages={5}
+                totalPages={totalPages}
                 onPageChange={onPageChange}
               />
             </div>
@@ -195,13 +190,10 @@ const ManageStudents = () => {
               <div className='overlay-content'>
                 <span className='close' onClick={handleCloseOverlay}>&times;</span>
                 {console.log(viewedStudent)}
-                <img src={"http://localhost:8000/" + viewedStudent.studentID} alt='Student ID' className='student-image' />
+                <img src={"https://canteen.fardindev.me/" + viewedStudent.studentID} alt='Student ID' className='student-image' />
                 <div className='student-actions'>
-                  <div className='student-actions'>
-                    <button onClick={() => handleVerifyStudent(viewedStudent, 'accept')}>Accept</button>
-                    <button onClick={() => handleVerifyStudent(viewedStudent, 'reject')}>Reject</button>
-                  </div>
-
+                  <button onClick={() => handleVerifyStudent(viewedStudent, 'accept')}>Accept</button>
+                  <button onClick={() => handleVerifyStudent(viewedStudent, 'reject')}>Reject</button>
                 </div>
               </div>
             </div>

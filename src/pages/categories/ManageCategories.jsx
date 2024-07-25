@@ -3,23 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/common/Input.jsx";
 import Button from "../../components/common/Button.jsx";
 import Divider from "../../components/common/Divider.jsx";
-import Dropdown from "../../components/common/Dropdown.jsx";
-import Pagination from "../../components/common/Pagination.jsx";
 import TableAction from "../../components/common/TableAction.jsx";
 import axios from "axios";
 
 const ManageCategories = () => {
   const [categoryArr, setCategoryArr] = useState([]);
   const navigate = useNavigate();
-  const [bulkCheck, setBulkCheck] = useState(false);
-  const [specificChecks, setSpecificChecks] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedValue, setSelectedValue] = useState(5);
-  const [tableRow, setTableRow] = useState([
-    { value: 2, label: "2" },
-    { value: 5, label: "5" },
-    { value: 10, label: "10" },
-  ]);
 
   const [fields, setCategories] = useState({
     name: "",
@@ -33,46 +22,34 @@ const ManageCategories = () => {
     });
   };
 
-  const bulkAction = [
-    { value: "delete", label: "Delete" },
-    { value: "category", label: "Category" },
-    { value: "status", label: "Status" },
-  ];
+ 
 
-  const bulkActionDropDown = (selectedOption) => {
-    console.log(selectedOption);
-  };
+  const actionItems = ["available", "unavailable", "Delete"];
 
-  const onPageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  const handleActionItemClick = (item, category) => {
+    const itemName = item.toLowerCase();
+    if (itemName === "delete") {
+      deleteCategory(category._id);
+    } else {
+      UpdateStock(itemName,category.name)
 
-  const showTableRow = (selectedOption) => {
-    setSelectedValue(selectedOption.label);
-  };
-
-  const actionItems = ["Delete", "edit"];
-
-  const handleActionItemClick = (item, itemId) => {
-    const updateItem = item.toLowerCase();
-    if (updateItem === "delete") {
-      deleteCategory(itemId);
-    } else if (updateItem === "edit") {
-      navigate(`/catalog/categories/manage/${itemId}`);
     }
   };
 
+  const UpdateStock = async (availability, categoryName) => {
+    console.log(categoryName,availability);
+    const response = await axios.get(`https://canteen.fardindev.me/api/v1/meals/updateByCategory?category=${categoryName}&availability=${availability}`);
+     console.log(response.data);
+  
+  }
+
   const deleteCategory = (id) => {
     axios
-      .delete(`http://localhost:8000/api/v1/category/${id}`)
+      .delete(`https://canteen.fardindev.me/api/v1/category/${id}`)
       .then((response) => {
         console.log(response);
         setCategoryArr(categoryArr.filter((category) => category._id !== id));
-        // setCategories({
-        //   ...fields,
-        //   status: 'deleted',
-        // });
-        
+
       })
       .catch((error) => {
         console.error(error);
@@ -97,7 +74,7 @@ const ManageCategories = () => {
 
   const createCategory = () => {
     axios
-      .post("http://localhost:8000/api/v1/category", fields)
+      .post("https://canteen.fardindev.me/api/v1/category", fields)
       .then((response) => {
         console.log(response);
         setCategories({
@@ -112,7 +89,7 @@ const ManageCategories = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/category")
+      .get("https://canteen.fardindev.me/api/v1/category")
       .then((res) => {
         console.log(res.data);
         setCategoryArr(res.data);
@@ -130,7 +107,7 @@ const ManageCategories = () => {
     <section className="categories">
       <div className="container">
         <div className="wrapper">
-          <div className="sidebar" style={{display:'block',width:'30%'}}>
+          <div className="sidebar" style={{ display: 'block', width: '30%' }}>
             <div className="sidebar_item" style={{ backgroundColor: "" }}>
               <h2 className="sub_heading">Add category</h2>
               <div className="column">
@@ -155,13 +132,7 @@ const ManageCategories = () => {
           </div>
           <div className="content transparent">
             <div className="content_head">
-              {/* <Dropdown
-                placeholder="Bulk Action"
-                className="sm"
-                onClick={bulkActionDropDown}
-                options={bulkAction}
-              /> */}
-              {/* <Input placeholder="Search Categories..." className="sm table_search" /> */}
+
             </div>
             <div className="content_body">
               <div className="table_responsive">
@@ -185,7 +156,7 @@ const ManageCategories = () => {
                         <td className="td_action">
                           <TableAction
                             actionItems={actionItems}
-                            onActionItemClick={(item) => handleActionItemClick(item, category._id)}
+                            onActionItemClick={(item) => handleActionItemClick(item, category)}
                           />
                         </td>
                       </tr>
@@ -194,20 +165,7 @@ const ManageCategories = () => {
                 </table>
               </div>
             </div>
-            {/* <div className="content_footer">
-              <Dropdown
-                className="top show_rows sm"
-                placeholder="please select"
-                selectedValue={selectedValue}
-                onClick={showTableRow}
-                options={tableRow}
-              />
-              <Pagination
-                currentPage={currentPage}
-                totalPages={5}
-                onPageChange={onPageChange}
-              />
-            </div> */}
+
           </div>
         </div>
       </div>

@@ -74,7 +74,7 @@ const DeliveredList = () => {
     var updateItem = item.toLowerCase();
     if (updateItem === "delivered") {
       alert(`#${itemID} item delivered`);
-      axios.patch(`http://localhost:8000/api/v1/orders/${itemID}?status=delivered&limit=20`, {
+      axios.patch(`https://canteen.fardindev.me/api/v1/orders/${itemID}?status=delivered&limit=20`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -92,7 +92,7 @@ const DeliveredList = () => {
     const token = cookies.token;
     settoken(token)
     setrender(false)
-    axios.get('http://localhost:8000/api/v1/orders?status=delivered', {
+    axios.get('https://canteen.fardindev.me/api/v1/orders?status=delivered', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -155,7 +155,7 @@ const DeliveredList = () => {
           </td>
           <td className="td_id">{key}</td>
           <td>
-            <Link to={`/customers/manage/${order.user._id}`}>{order.user.name}</Link>
+          {order.user.name}
           </td>
           <td>{order.user.email}</td>
           <td>{order.total}</td>

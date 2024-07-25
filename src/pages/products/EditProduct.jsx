@@ -6,11 +6,14 @@ import Button from '../../components/common/Button.jsx';
 import Dropdown from '../../components/common/Dropdown.jsx';
 import FileUpload from '../../components/common/FileUpload.jsx';
 import TextEditor from '../../components/common/TextEditor.jsx';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
-const AddProduct = ({ productData }) => {
+const EditProduct = ({ productData }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState({
     name: '',
@@ -24,6 +27,8 @@ const AddProduct = ({ productData }) => {
     category: '',
     stock: ''
   });
+
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const [selectOptions, setSelectOptions] = useState([
     {
@@ -41,6 +46,8 @@ const AddProduct = ({ productData }) => {
     category: ''
   });
 
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
   const handleInputChange = (key, value) => {
     setProduct(prevProduct => ({
       ...prevProduct,
@@ -48,8 +55,12 @@ const AddProduct = ({ productData }) => {
     }));
   };
 
+  const handleFileChange = (files) => {
+    setSelectedFile(files[0]);
+  };
+
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/meals/${id}`).then(res => {
+    axios.get(`https://canteen.fardindev.me/api/v1/meals/${id}`).then(res => {
       console.log(res.data);
       setProduct(prevProduct => ({
         ...prevProduct,
@@ -66,6 +77,16 @@ const AddProduct = ({ productData }) => {
       });
     });
   }, [id]);
+
+  useEffect(() => {
+    axios.get('https://canteen.fardindev.me/api/v1/category').then(res => {
+      const options = res.data.map(category => ({
+        value: category._id,
+        label: category.name
+      }));
+      setCategoryOptions(options);
+    });
+  }, []);
 
   useEffect(() => {
     const profit = product.price - product.cost;
@@ -99,38 +120,98 @@ const AddProduct = ({ productData }) => {
     }));
   };
 
-  const categoryOptions = [
-    { value: 'breakfast', label: 'breakfast' },
-    { value: 'lunch', label: 'lunch' },
-    { value: 'snacks', label: 'snacks' },
-    { value: 'juice', label: 'juice' },
-    { value: 'others', label: 'others' }
-  ];
+  const notify = () => {
+    toast.success('Product saved Successfully', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+    setTimeout(() => {
+      navigate('/catalog/product/manage');
+    }, 2000);
+  };
 
-  const [labels, setLabels] = useState(Labels);
-
-  const handleCheckTax = (id, checked) => {
-    setLabels(prevCheckboxes =>
-      prevCheckboxes.map(checkbox =>
-        checkbox.id === id ? { ...checkbox, isChecked: checked } : checkbox
-      )
-    );
+  const notify1 = () => {
+    toast.error('Product deleted Successfully', {
+      position: 'top-right',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+    setTimeout(() => {
+      navigate('/catalog/product/manage');
+    }, 2000);
   };
 
   const updateData = () => {
-    const mealdata = product;
+    const mealdata = new FormData();
+    mealdata.append('name', product.name);
+    mealdata.append('description', product.description);
+    mealdata.append('cost', product.cost);
+    mealdata.append('price', product.price);
+    mealdata.append('category', product.category);
+    mealdata.append('stock', product.stock);
+    if (selectedFile) {
+      mealdata.append('productImg', selectedFile);
+    }
+
     console.log(mealdata);
 
     axios
-      .patch(`http://localhost:8000/api/v1/meals/${id}`, mealdata)
+      .patch(`https://canteen.fardindev.me/api/v1/meals/${id}`, mealdata, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
       .then(response => {
         console.log('Response Status:', response.status);
         console.log('Response Data:', response.data);
         console.log('Response:', response);
+        notify();
       })
       .catch(error => {
         if (error.response) {
           console.log('Response error:', error.response.data);
+        } else if (error.request) {
+          console.log('Request error:', error.request);
+        } else {
+          console.log('Error:', error.message);
+        }
+        console.log('Error config:', error.config);
+      });
+  };
+
+  const handleDelete = () => {
+    // Retrieve token from local storage
+    const token = JSON.parse(localStorage.getItem('token')); // Adjust the key based on how you store it
+    // Set up axios configuration with the Authorization header
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    axios
+      .delete(`https://canteen.fardindev.me/api/v1/meals/${id}`, config)
+      .then(response => {
+        console.log('Response Status:', response.status);
+        console.log('Response Data:', response.data);
+        console.log('Response:', response);
+        notify1(); // Call your notification function
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log('Response error:', error.response.data);
+          alert(error.response.data.msg);
         } else if (error.request) {
           console.log('Request error:', error.request);
         } else {
@@ -168,7 +249,7 @@ const AddProduct = ({ productData }) => {
             </div>
             <div className='content_item'>
               <h2 className='sub_heading'>Product Images</h2>
-              <FileUpload />
+              <FileUpload onFileChange={handleFileChange} />
             </div>
             <div className='content_item'>
               <h2 className='sub_heading'>Pricing</h2>
@@ -207,14 +288,12 @@ const AddProduct = ({ productData }) => {
                   placeholder='- -'
                   label='Margin'
                   readOnly={true}
-                  value={`${
-                    product.margin ? product.margin.toFixed(2) : '- -'
-                  }%`}
+                  value={`${product.margin ? product.margin.toFixed(2) : '- -'}%`}
                 />
               </div>
             </div>
           </div>
-          <div className='sidebar' style={{display:'block'}}>
+          <div className='sidebar' style={{ display: 'block' }}>
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Stock status</h2>
               <div className='column'>
@@ -241,15 +320,40 @@ const AddProduct = ({ productData }) => {
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Publish</h2>
               <Button
-                label='save & exit'
-                icon={<Icons.TbDeviceFloppy />}
+                label='Delete'
+                icon={<Icons.TbRowRemove />}
                 className=''
+                onClick={handleDelete}
+              />
+              <ToastContainer
+                position='top-right'
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='light'
               />
               <Button
                 label='save'
                 icon={<Icons.TbCircleCheck />}
                 className='success'
                 onClick={updateData}
+              />
+              <ToastContainer
+                position='top-right'
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='light'
               />
             </div>
           </div>
@@ -259,4 +363,4 @@ const AddProduct = ({ productData }) => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

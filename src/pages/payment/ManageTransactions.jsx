@@ -76,7 +76,7 @@ const ManageTransactions = () => {
   useEffect(() => {
     const token = cookies.token;
     setRender(false)
-    axios.get('http://localhost:8000/api/v1/orders?status=pending', {
+    axios.get('https://canteen.fardindev.me/api/v1/orders?status=pending', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -85,6 +85,7 @@ const ManageTransactions = () => {
         setOrderData(res.data.orders);
         setFilteredOrderData(res.data.orders);
         console.log(res.data.orders);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -107,7 +108,7 @@ const ManageTransactions = () => {
   const handleTransactionUpdate = (orderId, status) => {
     const token = cookies.token;
     console.log(paymentId);
-    axios.patch(`http://localhost:8000/api/v1/orders/${orderId}?status=${status}&payment=${paymentId}`, {
+    axios.patch(`https://canteen.fardindev.me/api/v1/orders/${orderId}?status=${status}&payment=${paymentId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -123,14 +124,14 @@ const ManageTransactions = () => {
       <div className="container">
         <div className="wrapper">
           <div className="content transparent" style={{marginTop:'-10px'}}>
-            <div className="content_head" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(229 229 229)', padding: '20px' }}>
+            <div className="content_head" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgb(238, 236, 236)', padding: '10px 20px' }}>
               <input 
                 type="text"
                 placeholder="Search Transactions..." 
                 className="sm table_search" 
                 value={searchTerm} 
                 onChange={handleSearchChange}
-                style={{ padding: '15px 45px', borderRadius: '5px', border: '1px solid #ccc',width:'60%' }}
+                style={{ padding: '10px 45px', borderRadius: '5px', border: '1px solid #ccc',width:'60%' }}
               />
             </div>
             <div className="content_body">
@@ -167,7 +168,7 @@ const ManageTransactions = () => {
                           </td>
                           <td className="td_id">{key}</td>
                           <td>
-                            <Link to={`/customers/manage/${order.user._id}`}>{order.user.name}</Link>
+                            {order.user.name}
                           </td>
                           <td>{order.user.email}</td>
                           <td>{order.total}</td>

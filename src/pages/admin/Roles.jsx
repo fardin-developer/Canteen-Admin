@@ -11,7 +11,7 @@ const Roles = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/users/roles-update?email=${email.toLowerCase()}&role=${role.toLowerCase()}`, {
+      const response = await fetch(`https://canteen.fardindev.me/api/v1/users/roles-update?email=${email.toLowerCase()}&role=${role.toLowerCase()}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
-const API_URL = "http://localhost:8000/api/v1/";
+const API_URL = "https://canteen.fardindev.me/api/v1/";
 
 
 
@@ -43,7 +43,7 @@ export const login = createAsyncThunk('login', async ({ email, password }, thunk
 });
 
 export const fetchTest = createAsyncThunk('fetchtest', async () => {
-  const response = await fetch('http://localhost:8000/api/v1/meals')
+  const response = await fetch('https://canteen.fardindev.me/api/v1/meals')
   return response.json()
 })
 

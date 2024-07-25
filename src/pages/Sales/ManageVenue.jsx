@@ -11,6 +11,7 @@ const Overview = () => {
 		totalSales: 0,
 		pendingOrder: 0,
 		deliveredOrder: 0,
+		paidAmount:0,
 		paidOrder: 0,
 		totalItems: 0,
 		pendingAmount: 0,
@@ -21,14 +22,14 @@ const Overview = () => {
 	const [categoryStore, setcategoryStore] = useState([])
 
 	useEffect(() => {
-		axios.get('http://localhost:8000/api/v1/dashboard')
+		axios.get('https://canteen.fardindev.me/api/v1/dashboard')
 		.then((res) => {
 			setDailySales(res.data.todaysOrders);
 		})
 		.catch(err => console.error("Error fetching dashboard data:", err));
 
 
-		axios.get('http://localhost:8000/api/v1/dashboard/manager-report')
+		axios.get('https://canteen.fardindev.me/api/v1/dashboard/manager-report')
 			.then(res => {
 				setReportData(res.data);
 				console.log(res.data);
@@ -42,7 +43,7 @@ const Overview = () => {
 		setSelectedCategory(e.target.value)
 	}
 	const loadDynamicCategpry = async () => {
-		let ssdata = await axios.get('http://localhost:8000/api/v1/category')
+		let ssdata = await axios.get('https://canteen.fardindev.me/api/v1/category')
 		console.log(ssdata.data)
 		setcategoryStore(ssdata.data)
 	}
@@ -65,6 +66,27 @@ const Overview = () => {
 								<div className='sale_overview_content'>
 									<h5 className='sale_title'>Total Sales</h5>
 									<h4 className='sale_value'>{reportData.totalSales}</h4>
+								</div>
+							</div>
+							<div className='sale_overview_card'>
+								<Icons.TbCash />
+								<div className='sale_overview_content'>
+									<h5 className='sale_title'>Pending Amount</h5>
+									<h4 className='sale_value'>₹{reportData.pendingAmount.toLocaleString('en-US')}</h4>
+								</div>
+							</div>
+							<div className='sale_overview_card'>
+								<Icons.TbCash />
+								<div className='sale_overview_content'>
+									<h5 className='sale_title'>Delivered Amount</h5>
+									<h4 className='sale_value'>₹{reportData.deliveredAmount.toLocaleString('en-US')}</h4>
+								</div>
+							</div>
+							<div className='sale_overview_card'>
+								<Icons.TbCash />
+								<div className='sale_overview_content'>
+									<h5 className='sale_title'>Paid Amount</h5>
+									<h4 className='sale_value'>₹{reportData.paidAmount.toLocaleString('en-US')}</h4>
 								</div>
 							</div>
 							<div className='sale_overview_card'>
@@ -95,20 +117,7 @@ const Overview = () => {
 									<h4 className='sale_value'>{reportData.totalItems}</h4>
 								</div>
 							</div>
-							<div className='sale_overview_card'>
-								<Icons.TbCash />
-								<div className='sale_overview_content'>
-									<h5 className='sale_title'>Pending Amount</h5>
-									<h4 className='sale_value'>₹{reportData.pendingAmount.toLocaleString('en-US')}</h4>
-								</div>
-							</div>
-							<div className='sale_overview_card'>
-								<Icons.TbCash />
-								<div className='sale_overview_content'>
-									<h5 className='sale_title'>Delivered Amount</h5>
-									<h4 className='sale_value'>₹{reportData.deliveredAmount.toLocaleString('en-US')}</h4>
-								</div>
-							</div>
+							
 						</div>
 
 
@@ -157,7 +166,7 @@ const Overview = () => {
 						</div>
 
 					</div>
-					<div className='sidebar'>
+					{/* <div className='sidebar' id='sidebar2'>
 						<div className='sidebar_item'>
 							<h2 className='sub_heading'>Audience</h2>
 							<Bar />
@@ -190,7 +199,7 @@ const Overview = () => {
 								))}
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</section>

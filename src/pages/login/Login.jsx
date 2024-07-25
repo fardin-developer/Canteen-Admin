@@ -6,14 +6,14 @@ import Logo from '../../images/common/logo-dark.svg'
 import Input from '../../components/common/Input.jsx'
 import Button from '../../components/common/Button.jsx'
 import CheckBox from '../../components/common/CheckBox.jsx'
-// import {login} from '../../store/slices/authenticationSlice.jsx';
 import { login } from '../../services/authservices.js'
-import { useCookies } from 'react-cookie';
-
+import { useCookies } from 'react-cookie'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Login = () => {
   const dispatch = useDispatch()
-  const [cookies, setCookie] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(['token'])
 
   const [formData, setFormData] = useState({
     email: '',
@@ -39,25 +39,27 @@ const Login = () => {
   }
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const resultAction = await dispatch(
       login({ email: formData.email, password: formData.password, extra: { cookies: { set: setCookie } } })
-    );
-    console.log(resultAction.payload.user);
+    )
 
     if (login.fulfilled.match(resultAction)) {
-      const userData = resultAction.payload;
+      const userData = resultAction.payload
       setCookie('token', userData.cookies);
-
-      console.log('Login successful:', userData.cookies);
+      console.log(userData);
+      
+      // console.log('Login successful:', userData.cookies)
     } else {
       if (resultAction.payload) {
-        console.error('Login failed:', resultAction.payload.cookies);
+        console.error('Login failed:', resultAction.payload.error)
+        toast.error(resultAction.payload.error || 'An error occurred')
       } else {
-        console.error('Login failed:', resultAction.error);
+        console.error('Login failed:', resultAction.error.message)
+        toast.error(resultAction.error.message)
       }
     }
-  };
+  }
 
   return (
     <div className='login'>
@@ -73,7 +75,7 @@ const Login = () => {
         <div className='login_content'>
           <div to='/' className='logo'>
             {/* <img src={Logo} alt='logo' /> */}
-            <h2 style={{width:"20px"}}>ISINE</h2>
+            <h2 style={{ width: '20px' }}>ISINE</h2>
           </div>
           <h2 className='page_heading'>Login</h2>
         </div>
@@ -119,8 +121,8 @@ const Login = () => {
         <p className='signup_link'>
           Don't have an account yet? <Link to='/signup'>Join ISINE</Link>
         </p>
-     
       </div>
+      <ToastContainer />
     </div>
   )
 }

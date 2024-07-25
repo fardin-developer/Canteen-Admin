@@ -372,15 +372,16 @@ figure img {
 
 .logo {
   height: 50px;
-  width: 140px;
+  width: 50px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
+  margin-left: 15px;
 }
 
 .logo img {
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 80%;
+  max-width: 80%;
 }
 
 .logo_text {
@@ -478,9 +479,10 @@ footer .container {
   align-items: center;
   grid-gap: 10px;
   flex: 0 0 80px;
+  justify-content: start;
 
-  padding: 5px 30px;
-  background: rgb(31 40 57);
+  padding: 5px 10px;
+  /* background: rgb(103, 113, 132); */
   position: relative;
   border-bottom: 1px solid rgb(71 80 99);
   border-right: 1px solid rgb(71 80 99);
@@ -753,6 +755,15 @@ li:has(.sub_menu.active)>.menu_link svg:not(.menu_icon) {
   height: 100%;
   grid-gap: 20px;
 }
+@media screen and (max-width:720px) {
+  .wrapper{
+    flex-direction: column;
+   
+  }
+  .sidebar{
+    width: 100%;
+  }
+}
 
 
 
@@ -765,8 +776,11 @@ li:has(.sub_menu.active)>.menu_link svg:not(.menu_icon) {
   grid-gap: 20px;
 }
 
-.sidebar {
-display:none
+@media screen and (min-width:720px) {
+  .sidebar {
+    width: 30%;
+    /* display:none */
+    }
 }
 
 .content:not(:has(.content_item)) {
@@ -848,7 +862,6 @@ display:none
 }
 
 .content_head,
-.content_body,
 .content_footer {
   display: flex;
   align-items: center;
@@ -1927,5 +1940,22 @@ d1iv[class^="column_"]>* {
       color:rgb(229, 223, 223)
     }
 
+  }
+}
+
+.logo img{
+  padding: 1px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px 5px gray;
+}
+
+.orders, .container, .content{
+  height: 100%;
+}
+
+.content_body, .table_responsive{
+  height: 100%;
+  .separate{
+    margin-bottom: 50px;
   }
 }

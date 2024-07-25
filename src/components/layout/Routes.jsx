@@ -164,7 +164,7 @@ const routes = [
     element: <AddVenue />,
   },
   {
-    path: "/paid",
+    path: "/sales",
     element: <ManageVenue />,
   },
   // Reviews

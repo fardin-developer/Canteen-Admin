@@ -1,11 +1,8 @@
 import * as Icons from "react-icons/tb";
 import React, { useState, useEffect } from "react";
-import Modal from "../../components/common/Modal.jsx";
 import Input from "../../components/common/Input.jsx";
 import Button from "../../components/common/Button.jsx";
-import Divider from "../../components/common/Divider.jsx";
 import Toggler from "../../components/common/Toggler.jsx";
-import CheckBox from "../../components/common/CheckBox.jsx";
 import Dropdown from "../../components/common/Dropdown.jsx";
 import Thumbnail from "../../components/common/Thumbnail.jsx";
 

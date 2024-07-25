@@ -14,14 +14,14 @@ class Chart extends Component {
 
    async fetchData() {
       try {
-         const response = await fetch('http://localhost:8000/api/v1/dashboard/best-selling-product');
+         const response = await fetch('https://canteen.fardindev.me/api/v1/dashboard/best-selling-product');
          const data = await response.json();
          this.setState({
             dataPoints: data.bestSellingProducts.map(product => ({
-               y: Math.round(product.totalAmount), // Ensure integer values
+               y: Math.round(product.totalAmount), 
                label: product.name
             }))
-         }, () => this.renderChart()); // Render chart after data is set
+         }, () => this.renderChart()); 
       } catch (error) {
          console.error('Error fetching data:', error);
       }
@@ -65,7 +65,7 @@ class Chart extends Component {
    render() {
       return (
          <div>
-            <div id="chartContainer" style={{ height: "370px", width: "100%" }}></div>
+            <div id="chartContainer" style={{ height: "570px", width: "100%" }}></div>
          </div>
       );
    }

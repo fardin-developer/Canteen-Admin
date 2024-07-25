@@ -7,7 +7,7 @@ const AreaChart = () => {
 
   useEffect(() => {
     // Fetch data from API when component mounts
-    axios.get('http://localhost:8000/api/v1/dashboard/analytics')
+    axios.get('https://canteen.fardindev.me/api/v1/dashboard/analytics')
       .then((res) => {
         console.log(res.data);
         setSales(res.data); // Assuming your API response has a 'data' property with sales data

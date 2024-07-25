@@ -9,6 +9,11 @@ const navigation = [
     url: "/",
     icon: <Icons.TbLayout className="menu_icon" />,
   },
+  {
+    name: "Sales",
+    url: "/sales",
+    icon: <Icons.TbCurrencyDollar className="menu_icon" />,
+  },
   // Catalog
   {
     name: "Catalog",
@@ -131,11 +136,7 @@ const navigation = [
   //   ]
   // },
   // Sales
-  {
-    name: "Sales",
-    url: "/paid",
-    icon: <Icons.TbCurrencyDollar className="menu_icon" />,
-  },
+
   // Pages
   // {
   //   name: "Pages",

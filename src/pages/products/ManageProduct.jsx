@@ -51,7 +51,7 @@ const ManageProduct = () => {
         }
 
         const response = await fetch(
-          'http://localhost:8000/api/v1/meals/',
+          'https://canteen.fardindev.me/api/v1/meals/',
           requestOptions
         )
         if (!response.ok) {
@@ -373,7 +373,7 @@ const ManageProduct = () => {
                 </table>
               </div>
             </div>
-            <div className='content_footer'>
+            {/* <div className='content_footer'>
               <Dropdown
                 className='top show_rows sm'
                 placeholder='please select'
@@ -386,7 +386,7 @@ const ManageProduct = () => {
                 totalPages={5}
                 onPageChange={onPageChange}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -22,7 +22,7 @@ const Overview = () => {
 
 	useEffect(() => {
 		// Fetch dashboard data
-		axios.get('http://localhost:8000/api/v1/dashboard')
+		axios.get('https://canteen.fardindev.me/api/v1/dashboard')
 			.then((res) => {
 				setTotalPrice(res.data.totalPrice);
 				setTotalCost(res.data.totalcost);
@@ -33,7 +33,7 @@ const Overview = () => {
 			.catch(err => console.error("Error fetching dashboard data:", err));
 
 		// Fetch best-selling products data
-		axios.get('http://localhost:8000/api/v1/dashboard/best-selling-product')
+		axios.get('https://canteen.fardindev.me/api/v1/dashboard/best-selling-product')
 			.then((res) => {
 				setBestSellingProducts(res.data.bestSellingProducts);
 				console.log(bestSellingProducts);
@@ -41,7 +41,7 @@ const Overview = () => {
 			.catch(err => console.error("Error fetching best-selling products:", err));
 
 		const loadDynamicCategory = async () => {
-			let ssdata = await axios.get('http://localhost:8000/api/v1/category');
+			let ssdata = await axios.get('https://canteen.fardindev.me/api/v1/category');
 			setCategoryStore(ssdata.data);
 		};
 
@@ -129,6 +129,7 @@ const Overview = () => {
 								</table>
 							</div>
 						</div>
+						<BarChart/>
 						<div className="content_item dashBoard-best-selling">
 							<h2 className="sub_heading">Best Selling Products</h2>
 							<div className="table-wrapper">
@@ -155,7 +156,7 @@ const Overview = () => {
 							</div>
 						</div>
 						<div>
-						<BarChart/>
+						
 					</div>
 					</div>
 					{/* <div className="sidebar">

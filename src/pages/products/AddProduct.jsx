@@ -11,7 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
-const AddProduct = ( ) => {
+const AddProduct = () => {
   const [product, setProduct] = useState({
     name: '',
     description: '',
@@ -99,13 +99,22 @@ const AddProduct = ( ) => {
     }));
   };
 
-  const categoryOptions = [
-    { value: 'breakfast', label: 'breakfast' },
-    { value: 'lunch', label: 'lunch' },
-    { value: 'snacks', label: 'snacks' },
-    { value: 'juice', label: 'juice' },
-    { value: 'others', label: 'others' }
-  ];
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('https://canteen.fardindev.me/api/v1/category')
+      .then(response => {
+        const categories = response.data.map(category => ({
+          value: category._id,
+          label: category.name
+        }));
+        setCategoryOptions(categories);
+      })
+      .catch(error => {
+        console.log('Error fetching categories:', error);
+      });
+  }, []);
 
   const [labels, setLabels] = useState(Labels);
 
@@ -152,11 +161,9 @@ const AddProduct = ( ) => {
   const [imageFile, setImageFile] = useState(null);
 
   const handleFileChange = (file) => {
-    setProduct(prevProduct => ({
-      ...prevProduct,
-      productImg: file // Assuming 'productImg' matches your backend's expected field name
-    }));
+    setImageFile(file[0]); // Assuming single file upload
   };
+  
 
   const submitData = () => {
     const formData = new FormData();
@@ -168,7 +175,7 @@ const AddProduct = ( ) => {
     }
 
     axios
-      .post('http://localhost:8000/api/v1/meals', formData, {
+      .post('https://canteen.fardindev.me/api/v1/meals', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -220,7 +227,7 @@ const AddProduct = ( ) => {
             <div className='content_item'>
               <h2 className='sub_heading'>Product Images</h2>
               <DropZone onFileChange={handleFileChange} />
-              </div>
+            </div>
             <div className='content_item'>
               <h2 className='sub_heading'>Pricing</h2>
               <div className='column_2'>
@@ -258,14 +265,13 @@ const AddProduct = ( ) => {
                   placeholder='- -'
                   label='Margin'
                   readOnly={true}
-                  value={`${
-                    product.margin ? product.margin.toFixed(2) : '- -'
-                  }%`}
+                  value={`${product.margin ? product.margin.toFixed(2) : '- -'
+                    }%`}
                 />
               </div>
             </div>
           </div>
-          <div className='sidebar' style={{display:'block'}}>
+          <div className='sidebar' style={{ display: 'block' }}>
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Stock status</h2>
               <div className='column'>
@@ -291,7 +297,7 @@ const AddProduct = ( ) => {
             <div className='sidebar_item'>
               <h2 className='sub_heading'>Publish</h2>
               <Button
-                label='save & exit'
+                label=''
                 icon={<Icons.TbDeviceFloppy />}
                 className=''
               />
