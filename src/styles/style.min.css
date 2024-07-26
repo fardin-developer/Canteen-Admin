@@ -85,7 +85,7 @@ body {
   --primary-150: rgba(255, 225, 149, 1);
   --primary-200: rgba(255, 213, 109, 1);
   --primary-250: rgba(255, 202, 68, 1);
-  --primary-300: rgba(255, 191, 28, 1);
+  --primary-300: rgb(255, 162, 0);
   --primary-350: rgba(232, 174, 25, 1);
   --primary-400: rgba(209, 156, 23, 1);
   --primary-450: rgba(185, 139, 20, 1);
@@ -462,7 +462,7 @@ footer .container {
   flex: 0 0 220px;
   width: 220px;
   transition: 0.3s ease-in-out;
-  background: rgb(41 51 70);
+  background: rgb(0, 0, 0);
   user-select: none;
   padding: 0 0 10px;
   display: flex;
@@ -1945,8 +1945,8 @@ d1iv[class^="column_"]>* {
 
 .logo img{
   padding: 1px;
-  border-radius: 25px;
-  box-shadow: 0px 0px 5px 5px gray;
+
+  box-shadow: 0px 0px 2px 4px gray;
 }
 
 .orders, .container, .content{

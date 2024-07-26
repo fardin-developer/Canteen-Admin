@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import * as Icons from "react-icons/tb";
 import Input from '../common/Input.jsx';
 import Profile from '../common/Profile.jsx';
 import gravatar from 'gravatar-url';
+
 
 const Navbar = () => {
   const [user, setUser] = useState({
@@ -11,6 +12,7 @@ const Navbar = () => {
     email: "",
     role:''
   });
+  const navigate=useNavigate()
 
   useEffect(() => {
     const localStorageUser = JSON.parse(localStorage.getItem('user'));
@@ -44,7 +46,7 @@ const Navbar = () => {
               {/* <Link className="navbar_icon">
                 <Icons.TbLayoutGrid />
               </Link> */}
-              <Link className="navbar_icon">
+              <Link className="navbar_icon" to="/sales">
                 <Icons.TbChartLine />
               </Link>
               <Link className="navbar_icon">
