@@ -118,9 +118,9 @@ const Login = () => {
             <Button label='Login' type='submit' />
           </div>
         </form>
-        <p className='signup_link'>
+        {/* <p className='signup_link'>
           Don't have an account yet? <Link to='/signup'>Join ISINE</Link>
-        </p>
+        </p> */}
       </div>
       <ToastContainer />
     </div>
